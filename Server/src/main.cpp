@@ -9,7 +9,9 @@ using namespace web::http::experimental::listener;
 
 int main () {
 
-    http_listener listner(L"http://localhost/restdemo");
+	const utility::string_t url = U("http://1.0.0.127/restdemo");
+
+    http_listener listner(url);
 
     listner.support(methods::GET,  [](http_request request) {
         request.reply(200);
