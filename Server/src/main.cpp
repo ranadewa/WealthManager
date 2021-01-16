@@ -35,6 +35,9 @@ int main () {
 
 		result[U("name")] = web::json::value(U("John Doe"));
 		result[U("cash")] = web::json::value(2000);
+		result[U("investment")] = web::json::value(3000);
+		result[U("liabilities")] = web::json::value(1000);
+		result[U("netWorth")] = web::json::value(10000);
 
         request.reply(200, result);
     });

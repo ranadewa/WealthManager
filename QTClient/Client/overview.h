@@ -3,15 +3,17 @@
 
 #include <QWidget>
 #include <QtWidgets/QTableWidget>
+#include <QtNetwork/QNetworkAccessManager>
 
-class Overview
+class Overview : public QObject
 {
 public:
-    Overview(QTableWidget* table = nullptr);
+    Overview(QTableWidget* table, QNetworkAccessManager* manager);
 
 private:
+    QNetworkAccessManager* _networkManager;
     QTableWidget* _tableWidget;
-    std::string _name;
+    QString _name;
     long _cash = 0;
     long _investment= 0;
     long _liabilities= 0;

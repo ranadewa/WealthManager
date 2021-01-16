@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <QMainWindow>
+#include <QtNetwork/QNetworkAccessManager>
 #include <overview.h>
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +20,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    std::unique_ptr<QNetworkAccessManager> _manager;
+
     std::unique_ptr<Overview> _overView;
 };
 #endif // MAINWINDOW_H
