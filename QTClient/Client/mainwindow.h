@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
 #include <QMainWindow>
+#include <overview.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +19,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    std::unique_ptr<Overview> _overView;
 };
 #endif // MAINWINDOW_H

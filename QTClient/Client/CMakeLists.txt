@@ -31,6 +31,8 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
+        overview.cpp
+        overview.h
         mainwindow.ui
 )
 

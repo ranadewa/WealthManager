@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    _overView.reset(new Overview(ui->tableWidget));
 }
 
 MainWindow::~MainWindow()
