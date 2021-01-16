@@ -9,20 +9,6 @@ using namespace web::http::experimental::listener;
 
 #define TRACE(msg)            std::wcout << msg
 
-void handle_get(http_request request)
-{
-	TRACE(L"\nhandle GET\n");
-
-	request.reply(status_codes::OK);
-}
-
-void display_json(
-	json::value const& jvalue,
-	utility::string_t const& prefix)
-{
-	std::wcout << prefix << jvalue.serialize() << std::endl;
-}
-
 int main () {
 
 	const utility::string_t uri = U("http://localhost:1081/overview");
