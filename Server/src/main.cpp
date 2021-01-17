@@ -37,7 +37,7 @@ void handle_request(
 		try
 		{
 			auto const& jvalue = task.get();
-			display_json(jvalue, L"R: ");
+			//display_json(jvalue, L"R: ");
 
 			if (!jvalue.is_null())
 			{
@@ -52,7 +52,7 @@ void handle_request(
 		.wait();
 
 
-	display_json(answer, L"S: ");
+	//display_json(answer, L"S: ");
 
 	request.reply(status_codes::OK, answer);
 }
@@ -74,7 +74,7 @@ int main () {
 			{
 
 				auto const& jvalue = task.get();
-				display_json(jvalue, L"R: ");
+				//display_json(jvalue, L"R: ");
 
 				if (!jvalue.is_null())
 				{
