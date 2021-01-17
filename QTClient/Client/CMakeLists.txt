@@ -32,10 +32,15 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
+        utils.h
+        utils.cpp
         overview.cpp
         overview.h
         constants.h
         mainwindow.ui
+        loginwindow.h
+        loginwindow.cpp
+        loginwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
