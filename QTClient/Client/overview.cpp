@@ -1,20 +1,17 @@
 #include "overview.h"
+#include "utils.h"
 #include "constants.h"
 #include <assert.h>
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
 
+
 Overview::Overview(QTableWidget* table, QNetworkAccessManager* manager) : _networkManager(manager), _tableWidget(table)
 {
     assert(_tableWidget != nullptr);
 
-    QString host(URI::host);
-    QString overview = host + QString(URI::overview);
-
-    QNetworkRequest request;
-    request.setUrl(QUrl(overview));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QNetworkRequest request = Util::createRequest(URI::overview);
 
     QObject::connect(manager,
                      &QNetworkAccessManager::finished,
