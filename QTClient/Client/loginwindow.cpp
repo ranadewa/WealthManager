@@ -47,6 +47,8 @@ void LoginWindow::on_pushButton_clicked()
                    {
                        accept();
                    }
+
+                   // TODO handle reject
                }
            }
        );

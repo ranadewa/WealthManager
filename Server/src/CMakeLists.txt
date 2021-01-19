@@ -6,7 +6,13 @@ if(!MSVC)
     find_package(Boost COMPONENTS filesystem system REQUIRED)
 endif()
 
-add_executable(server main.cpp)
+set(PROJECT_SOURCES
+main.cpp
+httpserver.h
+httpserver.cpp
+)
+
+add_executable(server ${PROJECT_SOURCES})
 target_link_libraries(server PRIVATE cpprestsdk::cpprest)
 
 if(!MSVC)
