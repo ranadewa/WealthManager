@@ -11,11 +11,20 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+get_directory_property(hasParent PARENT_DIRECTORY)
+if(hasParent)
+  message(STATUS "Building from qt client from main project.")
+else()
+  message(STATUS "Building from QT creator")
+  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../Common ${CMAKE_CURRENT_BINARY_DIR}/CommonDuplicate)
+endif()
+
+
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check https://doc.qt.io/qt/deployment-android.html for more information.
 # They need to be set before the find_package( ...) calls below.
 
-#if(ANDROID)
+#if(ANDROID) 
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
 #    if (ANDROID_ABI STREQUAL "armeabi-v7a")
 #        set(ANDROID_EXTRA_LIBS
@@ -27,6 +36,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../Common)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -59,4 +70,7 @@ else()
     endif()
 endif()
 
+# find_library(lib_common ${CMAKE_CURRENT_SOURCE_DIR}/../Common)
+# target_link_directories (lib_common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../Common)
 target_link_libraries(Client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt5::Network)
+target_link_libraries(Client PUBLIC lib_common)

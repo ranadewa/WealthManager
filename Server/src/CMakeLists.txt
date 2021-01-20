@@ -6,14 +6,18 @@ if(!MSVC)
     find_package(Boost COMPONENTS filesystem system REQUIRED)
 endif()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../Common)
+
 set(PROJECT_SOURCES
 main.cpp
 httpserver.h
 httpserver.cpp
 )
 
+
 add_executable(server ${PROJECT_SOURCES})
-target_link_libraries(server PRIVATE cpprestsdk::cpprest)
+
+target_link_libraries(server PRIVATE cpprestsdk::cpprest lib_common)
 
 if(!MSVC)
     target_link_libraries(server PRIVATE boost_system)
