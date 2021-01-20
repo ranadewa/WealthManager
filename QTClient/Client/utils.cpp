@@ -1,11 +1,12 @@
 #include "utils.h"
 #include "constants.h"
+#include "../../Common/uri.h"
 
 namespace Util {
-    QNetworkRequest createRequest(char const* uri)
+    QNetworkRequest createRequest(QString uri)
     {
-        QString host(URI::host);
-        QString overview = host + QString(uri);
+        QString host(wToQ(URI::host));
+        QString overview = host + uri;
 
         QNetworkRequest request;
         request.setUrl(QUrl(overview));
@@ -13,5 +14,11 @@ namespace Util {
 
         return request;
     }
+
+    QString wToQ(std::wstring const& string)
+    {
+        return QString::fromWCharArray(string.c_str());
+    }
+
 }
 

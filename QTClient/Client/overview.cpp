@@ -1,6 +1,7 @@
 #include "overview.h"
 #include "utils.h"
 #include "constants.h"
+#include "../../Common/uri.h"
 #include <assert.h>
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -11,7 +12,7 @@ Overview::Overview(QTableWidget* table, QNetworkAccessManager* manager) : _netwo
 {
     assert(_tableWidget != nullptr);
 
-    QNetworkRequest request = Util::createRequest(URI::overview);
+    QNetworkRequest request = Util::createRequest(Util::wToQ(URI::overview));
 
     QObject::connect(manager,
                      &QNetworkAccessManager::finished,

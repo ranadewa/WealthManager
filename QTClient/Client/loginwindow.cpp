@@ -2,6 +2,7 @@
 #include "ui_loginwindow.h"
 #include "constants.h"
 #include "utils.h"
+#include "../../Common/uri.h"
 #include <QNetworkReply>
 #include <QVariantMap>
 #include <QJsonDocument>
@@ -29,7 +30,7 @@ void LoginWindow::on_pushButton_clicked()
     if(name.isEmpty() || password.isEmpty()) // Validate
         return ;
 
-    auto request = Util::createRequest(URI::authenticate);
+    auto request = Util::createRequest(Util::wToQ(URI::authenticate));
 
     QObject::connect(_networkManager.get(),
                      &QNetworkAccessManager::finished,

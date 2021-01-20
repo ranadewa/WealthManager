@@ -4,6 +4,7 @@
 #include<QNetworkRequest>
 
 namespace Util {
-    QNetworkRequest createRequest(char const* uri);
+    QNetworkRequest createRequest(QString uri);
+    QString wToQ(std::wstring const& string);
 }
 #endif // UTILS_H
