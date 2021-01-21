@@ -1,5 +1,7 @@
 #include "httpserver.h"
 #include "uri.h"
+#include "usermanager.h"
+#include "usermanager_facade.h"
 
 void display_json(
 	json::value const& jvalue,
@@ -12,12 +14,8 @@ void display_json(
 int main () {
 
 	HTTPServer server(URI::host);
-
-	server.registerEndpoint(methods::PUT, URI::authenticate, [](web::http::http_request request) {
-		wcout << "Authenticate invoked" << endl;
-		request.reply(status_codes::OK);
-	});
-
+	UserManager userManager;
+	UserManagerFacade userManagerFacade(server, userManager);
 
 	try
 	{
