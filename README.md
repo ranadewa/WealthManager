@@ -6,6 +6,11 @@ Personal wealth management system in C++
 
 * For Ubuntu 16.04 the installation command doesn't generate the necessary .cmake file So we have to [build it from the source](https://death-of-rats.github.io/posts/building-cpprest-sample/).
   * Checkout to branch ubuntu_16.04
+  * Install needed build tools and libs:
+    ```
+    sudo apt-get install g++ git libboost-atomic-dev libboost-thread-dev libboost-system-dev libboost-date-time-dev libboost-regex-dev libboost-filesystem-dev libboost-random-dev libboost-chrono-dev libboost-serialization-dev libwebsocketpp-dev openssl libssl-dev ninja-build
+    ```
+    
    
 
 [boost_system]
