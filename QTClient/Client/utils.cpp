@@ -5,7 +5,7 @@
 namespace Util {
     QNetworkRequest createRequest(QString uri)
     {
-        QString host(wToQ(URI::host));
+        QString host(URI::host.c_str());
         QString overview = host + uri;
 
         QNetworkRequest request;
