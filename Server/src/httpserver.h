@@ -11,7 +11,13 @@ using namespace web;
 using namespace web::http;
 using namespace web::http::experimental::listener;
 
-#define TRACE(msg)            std::wcout << msg
+#ifdef _WIN32
+#define TRACE(msg)            std::wcout << msg << std::endl;
+#else
+#define TRACE(msg)            std::cout << msg << std::endl;
+#endif // _WIN32
+
+
 
 class HTTPServer
 {
