@@ -11,7 +11,13 @@ using namespace web;
 using namespace web::http;
 using namespace web::http::experimental::listener;
 
-#define TRACE(msg)            std::wcout << msg
+#ifdef _WIN32
+#define TRACE(msg)            std::wcout << msg << std::endl;
+#else
+#define TRACE(msg)            std::cout << msg << std::endl;
+#endif // _WIN32
+
+
 
 class HTTPServer
 {
@@ -25,7 +31,7 @@ public:
 	void start();
 
 private:
-	string _baseURI;
+	utility::string_t _baseURI;
 	http_listener _listner;
-	std::unordered_map<string, Action> _routes;
+	std::unordered_map<utility::string_t, Action> _routes;
 };
