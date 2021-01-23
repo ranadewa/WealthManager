@@ -3,13 +3,6 @@
 #include "usermanager.h"
 #include "usermanager_facade.h"
 
-void display_json(
-	json::value const& jvalue,
-	utility::string_t const& prefix)
-{
-	std::wcout << prefix << jvalue.serialize() << std::endl;
-}
-
 
 int main () {
 
