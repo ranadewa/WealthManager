@@ -30,7 +30,7 @@ void LoginWindow::on_pushButton_clicked()
     if(name.isEmpty() || password.isEmpty()) // Validate
         return ;
 
-    auto request = Util::createRequest(Util::wToQ(URI::authenticate));
+    auto request = Util::createRequest(URI::authenticate.c_str());
 
     QObject::connect(_networkManager.get(),
                      &QNetworkAccessManager::finished,

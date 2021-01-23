@@ -18,14 +18,14 @@ class HTTPServer
 	typedef std::function<void(web::http::http_request)> Action;
 
 public:
-	HTTPServer(utility::string_t baseURI);
+	HTTPServer(string baseURI);
 
-	void registerEndpoint(method method, utility::string_t path, Action action);
+	void registerEndpoint(method method, string path, Action action);
 
 	void start();
 
 private:
-	utility::string_t _baseURI;
+	string _baseURI;
 	http_listener _listner;
-	std::unordered_map<utility::string_t, Action> _routes;
+	std::unordered_map<string, Action> _routes;
 };

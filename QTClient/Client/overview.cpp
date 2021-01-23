@@ -12,7 +12,7 @@ Overview::Overview(QTableWidget* table, QNetworkAccessManager* manager) : _netwo
 {
     assert(_tableWidget != nullptr);
 
-    QNetworkRequest request = Util::createRequest(Util::wToQ(URI::overview));
+    QNetworkRequest request = Util::createRequest(URI::overview.c_str());
 
     QObject::connect(manager,
                      &QNetworkAccessManager::finished,
