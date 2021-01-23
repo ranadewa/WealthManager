@@ -3,7 +3,8 @@
 HTTPServer::HTTPServer(string baseURI) : _baseURI(baseURI), _listner(utility::conversions::to_string_t(_baseURI))
 {
 	_listner.support([this](web::http::http_request request) {
-		auto path = utility::conversions::utf16_to_utf8(request.method() + request.request_uri().to_string());
+		auto utf16Path = request.method() + request.request_uri().to_string();
+		auto path = utility::conversions::utf16_to_utf8(utf16Path);
 		cout << "path: " << path << endl;
 
 		if (_routes.find(path) != _routes.end())
@@ -15,7 +16,7 @@ HTTPServer::HTTPServer(string baseURI) : _baseURI(baseURI), _listner(utility::co
 
 void HTTPServer::registerEndpoint(method method, string path, Action action)
 {
-	_routes.insert({ (utility::conversions::utf16_to_utf8(method) + path), action });
+	_routes.insert({ (utility::conversions::utf16_to_utf8(method.c_str()) + path), action });
 }
 
 void HTTPServer::start()
