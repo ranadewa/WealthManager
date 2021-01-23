@@ -32,3 +32,5 @@ https://github.com/microsoft/cpprestsdk/issues/686
 
 [set cmake module path] (https://stackoverflow.com/questions/8711109/could-not-find-module-findopencv-cmake-error-in-configuration-process)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
+
+[cannot install cpprest](https://github.com/microsoft/cpprestsdk/issues/686#issuecomment-458009956)
