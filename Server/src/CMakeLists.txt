@@ -16,7 +16,11 @@ usermanager_facade.cpp
 
 add_executable(server ${PROJECT_SOURCES})
 
-target_link_libraries(server PRIVATE  CppRest::cpprest lib_common)
+target_link_libraries(server PRIVATE  
+CppRest::CppRest 
+lib_common 
+${Boost_LIBRARIES}
+${OPENSSL_LIBRARIES})
 
 if(!MSVC)
     target_link_libraries(server PRIVATE boost_system)
