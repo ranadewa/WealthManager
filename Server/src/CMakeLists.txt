@@ -1,12 +1,9 @@
 project(Server)
 
-find_package(cpprestsdk CONFIG REQUIRED) 
 
-if(!MSVC)
-    find_package(Boost COMPONENTS filesystem system REQUIRED)
-endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../Common)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/cpprestsdk/Release/include)
 
 set(PROJECT_SOURCES
 main.cpp
@@ -21,7 +18,7 @@ usermanager_facade.cpp
 
 add_executable(server ${PROJECT_SOURCES})
 
-target_link_libraries(server PRIVATE  cpprestsdk::cpprest lib_common)
+target_link_libraries(server PRIVATE  cpprestsdk lib_common)
 
 if(!MSVC)
     target_link_libraries(server PRIVATE boost_system)
