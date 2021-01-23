@@ -8,7 +8,7 @@ message("C1 :" ${CMAKE_SOURCE_DIR})
 # set(THIRD_PARTY_INSTALL_DIR "${CMAKE_SOURCE_DIR}/Build.3rdParty/Install" CACHE STRING "Directory that contains the built 3rd party libraries.")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 message("XXXXXXXXXXXXXXXXX module path: " ${CMAKE_MODULE_PATH})
-
+find_package(CppRest REQUIRED)
 # find_package(cpprestsdk CONFIG REQUIRED) 
 
 add_subdirectory(3rdParty)

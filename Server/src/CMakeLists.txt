@@ -1,8 +1,5 @@
 project(Server)
 
-
-find_package(CppRest REQUIRED)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../Common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/cpprestsdk/Release/include)
 
@@ -19,7 +16,7 @@ usermanager_facade.cpp
 
 add_executable(server ${PROJECT_SOURCES})
 
-target_link_libraries(server PRIVATE  cpprestsdk::cpprest lib_common)
+target_link_libraries(server PRIVATE  CppRest::cpprest lib_common)
 
 if(!MSVC)
     target_link_libraries(server PRIVATE boost_system)
