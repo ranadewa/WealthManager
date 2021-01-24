@@ -28,10 +28,16 @@ void UserManagerFacade::onAuthRequest(HttpRequest request)
 					auto name = utility::conversions::to_utf8string(jvalue.at(U("name")).as_string());
 					auto password = utility::conversions::to_utf8string(jvalue.at(U("password")).as_string());
 
-					auto id = _manager.authentiate(name, password);
-					if (!id.empty())
+					auto user = _manager.authenticate(name, password);
+					if (!user._id.empty())
 					{
-						request.reply(status_codes::OK);
+						auto result = web::json::value::object();
+
+						result[U("name")] = web::json::value(utility::conversions::to_string_t(user._name));
+						result[U("id")] = web::json::value(utility::conversions::to_string_t(user._id));
+						result[U("isAdmin")] = web::json::value(user._isAdmin);
+
+						request.reply(status_codes::OK, result);
 					}
 					else
 					{
@@ -51,6 +57,37 @@ void UserManagerFacade::onAuthRequest(HttpRequest request)
 void UserManagerFacade::onPasswordChange(HttpRequest request)
 {
     cout << "onPasswordChange." << endl;
+	request
+		.extract_json()
+		.then([this, request](pplx::task<json::value> task) {
+		try
+		{
+
+			auto const& jvalue = task.get();
+
+			if (!jvalue.is_null())
+			{
+				auto id = utility::conversions::to_utf8string(jvalue.at(U("id")).as_string());
+				auto newPassword = utility::conversions::to_utf8string(jvalue.at(U("newPassword")).as_string());
+				auto oldPassword = utility::conversions::to_utf8string(jvalue.at(U("oldPassword")).as_string());
+
+				if (_manager.updatePassword(id, oldPassword, newPassword))
+				{
+					request.reply(status_codes::OK);
+				}
+				else
+				{
+					request.reply(status_codes::BadRequest, U("Invalid username or password"));
+				}
+			}
+		}
+		catch (http_exception const& e)
+		{
+			request.reply(status_codes::InternalError, U("Internal Server Error"));
+			std::cout << e.what() << endl;
+		}
+	})
+		.wait();
 }
 
 void UserManagerFacade::add(HttpRequest request)
