@@ -15,3 +15,17 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_changePassword_clicked()
+{
+
+}
+
+void MainWindow::on_addUser_clicked()
+{
+
+}
+
+void MainWindow::on_getUsers_clicked()
+{
+
+}

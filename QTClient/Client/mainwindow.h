@@ -18,6 +18,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+
+
+    void on_changePassword_clicked();
+
+    void on_addUser_clicked();
+
+    void on_getUsers_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<QNetworkAccessManager> _manager;

@@ -28,7 +28,7 @@ void UserManagerFacade::onAuthRequest(HttpRequest request)
 					auto name = utility::conversions::to_utf8string(jvalue.at(U("name")).as_string());
 					auto password = utility::conversions::to_utf8string(jvalue.at(U("password")).as_string());
 
-					auto id = _manager.authentiate(name, password);
+					auto id = _manager.authenticate(name, password);
 					if (!id.empty())
 					{
 						request.reply(status_codes::OK);
