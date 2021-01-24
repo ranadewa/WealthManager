@@ -47,9 +47,21 @@ bool UserManager::updatePassword(string const& id, string const& oldPassword, st
     return false;
 }
 
-bool UserManager::addUser(string const& userName, string const& password)
+bool UserManager::addUser(User&& user, string& error)
 {
-    return false;
+
+    if (_idLookup.find(user._name) != _idLookup.end()) // User exists
+    {
+        error = "User already exists";
+        return false;
+    }
+
+    user._id = to_string(_idLookup.size() + 1); // Give user next available id
+
+    _idLookup.insert({ user._name ,  user._id });  
+    _users.insert({ user._id, std::move(user) }); // To do encrypt password
+
+    return true;
 }
 
 bool UserManager::deleteUser(string const& userName, string const& password)

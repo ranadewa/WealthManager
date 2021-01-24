@@ -56,6 +56,9 @@ set(PROJECT_SOURCES
         changepassword.h
         changepassword.cpp
         changepassword.ui
+        addnewuser.h
+        addnewuser.cpp
+        addnewuser.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

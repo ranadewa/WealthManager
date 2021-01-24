@@ -1,37 +1,36 @@
-#include "changepassword.h"
-#include "ui_changepassword.h"
-#include "../../Common/uri.h"
+#include "addnewuser.h"
+#include "ui_addnewuser.h"
 #include "utils.h"
+#include "../../Common/uri.h"
 #include <QNetworkReply>
 #include <QVariantMap>
 #include <QJsonDocument>
 #include <QJsonObject>
 
 
-ChangePassword::ChangePassword(QWidget *parent,  QNetworkAccessManager* manager, User user) :
+AddNewUser::AddNewUser(QWidget *parent, QNetworkAccessManager* manager) :
     QDialog(parent),
-    ui(new Ui::ChangePassword),
-    _manager(manager),
-    _user(user)
+    ui(new Ui::AddNewUser),
+    _manager(manager)
 {
     ui->setupUi(this);
 }
 
-ChangePassword::~ChangePassword()
+AddNewUser::~AddNewUser()
 {
     delete ui;
 }
 
-void ChangePassword::on_ok_clicked()
+void AddNewUser::on_ok_clicked()
 {
-    auto newPassword  = ui->newPassword->text();
-    auto confirmPassword = ui->confirmPassword->text();
-    auto password = ui->oldPassword->text();
+    auto userName  = ui->userName->text();
+    auto password = ui->password->text();
+    auto isAdmin = ui->admin->isChecked();
 
-    if(newPassword.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) // Validate
+    if(userName.isEmpty() || password.isEmpty()) // Validate
         return ;
 
-    auto request = Util::createRequest(URI::changepassword.c_str());
+    auto request = Util::createRequest(URI::user.c_str());
 
     QObject::connect(_manager,
                      &QNetworkAccessManager::finished,
@@ -57,15 +56,15 @@ void ChangePassword::on_ok_clicked()
 
 
     QVariantMap data;
-    data["id"] = QString(_user._id.c_str());
-    data["newPassword"] = newPassword;
-    data["oldPassword"] = password;
+    data["name"] = userName;
+    data["password"] = password;
+    data["isAdmin"] = isAdmin;
     QJsonDocument doc = QJsonDocument::fromVariant(data);
 
     _manager->post(request, doc.toJson());
 }
 
-void ChangePassword::on_cancel_clicked()
+void AddNewUser::on_cancel_clicked()
 {
     accept();
 }

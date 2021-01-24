@@ -12,7 +12,7 @@ public:
     UserManager();
     User authenticate(string const& userName, string const& password);
     bool updatePassword(string const& id, string const& oldPassword, string const& newPassword);
-    bool addUser(string const& userName, string const& password);
+    bool addUser(User&& user, string & error);
     bool deleteUser(string const& userName, string const& password);
 
 private:

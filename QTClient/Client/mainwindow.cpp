@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "changepassword.h"
+#include "addnewuser.h"
 
 MainWindow::MainWindow(QWidget *parent,  User user)
     : QMainWindow(parent)
@@ -19,13 +20,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_changePassword_clicked()
 {
-    ChangePassword changePasswordUI(this, _manager.get(), _user);
-    changePasswordUI.exec();
+    ChangePassword window(this, _manager.get(), _user);
+    window.exec();
 }
 
 void MainWindow::on_addUser_clicked()
 {
-
+    AddNewUser window(this, _manager.get());
+    window.exec();
 }
 
 void MainWindow::on_getUsers_clicked()
