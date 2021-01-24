@@ -20,7 +20,7 @@ UserListWindow::UserListWindow(QWidget *parent, QNetworkAccessManager* manager) 
 
     QNetworkRequest request = Util::createRequest(URI::user.c_str());
 
-    QObject::connect(manager,
+    QObject::connect(_manager,
                      &QNetworkAccessManager::finished,
                      this,
                      [=](QNetworkReply *reply) {
@@ -30,8 +30,8 @@ UserListWindow::UserListWindow(QWidget *parent, QNetworkAccessManager* manager) 
                }
 
                auto responsedata = reply->readAll();
-               QJsonArray users = QJsonDocument::fromJson(responsedata).array();
                qDebug() << QString{responsedata};
+               QJsonArray users = QJsonDocument::fromJson(responsedata).array();
 
                if(!users.isEmpty())
                {
@@ -52,7 +52,7 @@ UserListWindow::UserListWindow(QWidget *parent, QNetworkAccessManager* manager) 
        );
 
 
-    manager->get(request);
+    _manager->get(request);
 }
 
 UserListWindow::~UserListWindow()

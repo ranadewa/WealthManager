@@ -14,7 +14,7 @@ class UserListWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit UserListWindow(QWidget *parent = nullptr, QNetworkAccessManager* manager =nullptr);
+     UserListWindow(QWidget *parent = nullptr, QNetworkAccessManager* manager =nullptr);
     ~UserListWindow();
 
 private:

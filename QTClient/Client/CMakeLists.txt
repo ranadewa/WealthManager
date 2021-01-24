@@ -48,6 +48,8 @@ set(PROJECT_SOURCES
         utils.cpp
         overview.cpp
         overview.h
+        investments.h
+        investments.cpp
         constants.h
         mainwindow.ui
         loginwindow.h
