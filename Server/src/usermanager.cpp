@@ -1,4 +1,6 @@
 #include "usermanager.h"
+#include <algorithm>
+#include <iterator>
 
 UserManager::UserManager()
 {
@@ -67,4 +69,15 @@ bool UserManager::addUser(User&& user, string& error)
 bool UserManager::deleteUser(string const& userName, string const& password)
 {
     return false;
+}
+
+vector<User> UserManager::getUsers()
+{
+    vector<User> users;
+
+    transform(_users.begin(), _users.end(), std::back_inserter(users), [this](std::pair<string, User> const& pair) {
+        return pair.second;
+    });
+
+    return users;
 }

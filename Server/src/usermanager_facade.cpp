@@ -1,5 +1,7 @@
 #include "usermanager_facade.h"
 #include <functional>
+#include <algorithm>
+#include <iterator>
 #include "uri.h"
 
 UserManagerFacade::UserManagerFacade(HTTPServer& server, UserManager& manager): _manager(manager)
@@ -86,6 +88,24 @@ void UserManagerFacade::deleteUser(HttpRequest request)
 void UserManagerFacade::getUserList(HttpRequest request)
 {
     cout << "getUserList." << endl;
+
+	vector<User> users = _manager.getUsers();
+	vector< web::json::value> jUsers;
+
+	std::transform(users.begin(), users.end(), back_inserter(jUsers), [](User const& user) {
+		auto userObj = web::json::value::object();
+
+		userObj[U("name")] = web::json::value(utility::conversions::to_string_t(user._name));
+		userObj[U("id")] = web::json::value(utility::conversions::to_string_t(user._id));
+		userObj[U("isAdmin")] = web::json::value(user._isAdmin);
+
+		return userObj;
+	});
+	
+
+	auto result = web::json::value::array(jUsers);
+
+	request.reply(http::status_codes::OK, result);
 }
 
 void UserManagerFacade::parse(HttpRequest request, function<void(json::value)> out)

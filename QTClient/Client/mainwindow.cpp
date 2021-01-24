@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "changepassword.h"
 #include "addnewuser.h"
+#include "userlistwindow.h"
 
 MainWindow::MainWindow(QWidget *parent,  User user)
     : QMainWindow(parent)
@@ -32,5 +33,6 @@ void MainWindow::on_addUser_clicked()
 
 void MainWindow::on_getUsers_clicked()
 {
-
+    UserListWindow window(this, _manager.get());
+    window.exec();
 }
