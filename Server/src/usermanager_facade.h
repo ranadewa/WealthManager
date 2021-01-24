@@ -19,4 +19,6 @@ private:
     void deleteUser(HttpRequest request);
     void getUserList(HttpRequest request);
 
+    UserManager& _manager;
+
 };
