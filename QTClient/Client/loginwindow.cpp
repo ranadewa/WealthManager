@@ -46,6 +46,17 @@ void LoginWindow::on_pushButton_clicked()
 
                    if(!statusCode.isNull() && statusCode.toInt() == 200)
                    {
+                       QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+
+                       if(!doc.isNull() && doc.isObject())
+                       {
+                           QJsonObject obj = doc.object();
+
+                           _user._id = obj["id"].toString().toStdString();
+                           _user._isAdmin = obj["isAdmin"].toBool();
+                           _user._name = obj["name"].toString().toStdString();
+                       }
+
                        accept();
                    }
 

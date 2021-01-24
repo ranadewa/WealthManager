@@ -38,6 +38,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../Common)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../Common/DTO)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -52,6 +53,9 @@ set(PROJECT_SOURCES
         loginwindow.h
         loginwindow.cpp
         loginwindow.ui
+        changepassword.h
+        changepassword.cpp
+        changepassword.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

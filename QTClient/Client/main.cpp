@@ -11,7 +11,9 @@ int main(int argc, char *argv[])
 
     if(login.exec())
     {
-        MainWindow w;
+        User user = login._user;
+
+        MainWindow w(nullptr, user);
         w.show();
         return a.exec();
     }

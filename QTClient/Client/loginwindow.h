@@ -4,6 +4,7 @@
 #include <memory>
 #include <QDialog>
 #include <QtNetwork/QNetworkAccessManager>
+#include "../../Common/DTO/user.h"
 
 namespace Ui {
 class LoginWindow;
@@ -17,12 +18,15 @@ public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
 
+    User _user;
+
 private slots:
     void on_pushButton_clicked();
 
 private:
     Ui::LoginWindow *ui;
     std::unique_ptr<QNetworkAccessManager> _networkManager;
+
 };
 
 #endif // LOGINWINDOW_H

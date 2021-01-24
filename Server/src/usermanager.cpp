@@ -8,9 +8,9 @@ UserManager::UserManager()
     _users.insert({ user._id, std::move(user) });
 }
 
-string UserManager::authenticate(string const& userName, string const& password)
+User UserManager::authenticate(string const& userName, string const& password)
 {
-    string result{};
+    User result{};
 
     if (_idLookup.find(userName) != _idLookup.end())
     {
@@ -22,7 +22,7 @@ string UserManager::authenticate(string const& userName, string const& password)
 
             if (storedPassword.compare(password) == 0) // passoword match
             {
-                result = id;
+                result = _users.at(id);
             }
         }
     }
@@ -30,8 +30,20 @@ string UserManager::authenticate(string const& userName, string const& password)
     return result;
 }
 
-bool UserManager::updatePassword(string const& userId, string const& oldPassword, string const& newPassword)
+bool UserManager::updatePassword(string const& id, string const& oldPassword, string const& newPassword)
 {
+
+    if (_users.find(id) != _users.end())
+    {
+        auto storedPassword = _users.at(id)._password; // To do decrypt password
+
+        if (storedPassword.compare(oldPassword) == 0) // passoword match
+        {
+            _users.at(id)._password = newPassword;
+            return true;
+        }
+    }
+
     return false;
 }
 
