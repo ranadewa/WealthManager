@@ -13,6 +13,8 @@ set(PROJECT_SOURCES
 main.cpp
 httpserver.h
 httpserver.cpp
+userrepository.h 
+userrepository.cpp
 usermanager.h
 usermanager.cpp
 usermanager_facade.h

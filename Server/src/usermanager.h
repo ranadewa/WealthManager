@@ -3,14 +3,14 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <user.h>
+#include "userrepository.h"
 
 using namespace std;
 
 class UserManager
 {
 public:
-    UserManager();
+    UserManager(IUserRepository::IUserRepositoryPtr repository);
     User authenticate(string const& userName, string const& password);
     bool updatePassword(string const& id, string const& oldPassword, string const& newPassword);
     bool addUser(User&& user, string & error);
@@ -20,4 +20,5 @@ public:
 private:
     unordered_map<string, User> _users;
     unordered_map<string, string> _idLookup;
+    IUserRepository::IUserRepositoryPtr _repository;
 };

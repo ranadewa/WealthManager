@@ -1,5 +1,6 @@
 #include "httpserver.h"
 #include "uri.h"
+#include "userrepository.h"
 #include "usermanager.h"
 #include "usermanager_facade.h"
 
@@ -14,7 +15,7 @@ void display_json(
 int main () {
 
 	HTTPServer server(URI::host);
-	UserManager userManager;
+	UserManager userManager(make_unique<UserFileRepository>());
 	UserManagerFacade userManagerFacade(server, userManager);
 
 	try

@@ -2,12 +2,15 @@
 #include <algorithm>
 #include <iterator>
 
-UserManager::UserManager()
+UserManager::UserManager(IUserRepository::IUserRepositoryPtr repository) : _repository(std::move(repository))
 {
-    User user{ "admin", "1", "123", true };  // To do encrypt password
+    vector<User> userList = _repository->getUsers();
 
-    _idLookup.insert({ user._name, user._id });
-    _users.insert({ user._id, std::move(user) });
+    for (auto & user : userList)
+    {
+        _idLookup.insert({ user._name, user._id });
+        _users.insert({ user._id, std::move(user) });
+    }
 }
 
 User UserManager::authenticate(string const& userName, string const& password)
@@ -41,8 +44,10 @@ bool UserManager::updatePassword(string const& id, string const& oldPassword, st
 
         if (storedPassword.compare(oldPassword) == 0) // passoword match
         {
-            _users.at(id)._password = newPassword;
-            return true;
+            if (_repository->updateUsers(getUsers()))
+            {
+                _users.at(id)._password = newPassword;
+            }
         }
     }
 
@@ -60,10 +65,19 @@ bool UserManager::addUser(User&& user, string& error)
 
     user._id = to_string(_idLookup.size() + 1); // Give user next available id
 
-    _idLookup.insert({ user._name ,  user._id });  
-    _users.insert({ user._id, std::move(user) }); // To do encrypt password
+    if (_repository->addUser(user))
+    {
+        _idLookup.insert({ user._name ,  user._id });
+        _users.insert({ user._id, std::move(user) }); // To do encrypt password
+    }
+    else
+    {
+        error = "Failed to add user to repository";
+        return false;
+    }
 
-    return true;
+
+    return true;;
 }
 
 bool UserManager::deleteUser(string const& userName, string const& password)
