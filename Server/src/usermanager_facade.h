@@ -18,6 +18,7 @@ private:
     void add(HttpRequest request);
     void deleteUser(HttpRequest request);
     void getUserList(HttpRequest request);
+    void parse(HttpRequest request, function<void(json::value)> out);
 
     UserManager& _manager;
 

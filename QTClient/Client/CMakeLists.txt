@@ -48,6 +48,8 @@ set(PROJECT_SOURCES
         utils.cpp
         overview.cpp
         overview.h
+        investments.h
+        investments.cpp
         constants.h
         mainwindow.ui
         loginwindow.h
@@ -56,6 +58,12 @@ set(PROJECT_SOURCES
         changepassword.h
         changepassword.cpp
         changepassword.ui
+        addnewuser.h
+        addnewuser.cpp
+        addnewuser.ui
+        userlistwindow.h
+        userlistwindow.cpp
+        userlistwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
