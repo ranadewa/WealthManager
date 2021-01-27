@@ -3,5 +3,7 @@ project(lib_common)
 
 add_library(lib_common STATIC 
 			DTO/user.h
+			DTO/investments.h 
+			DTO/investments.cpp 
 			uri.h
 			place_holder.cpp)
