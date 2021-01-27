@@ -17,10 +17,6 @@ UserFileRepository::UserFileRepository() : _fileName("managing_users.txt")
     }
 }
 
-UserFileRepository::~UserFileRepository()
-{
-}
-
 vector<User> UserFileRepository::getUsers()
 {
     string line;

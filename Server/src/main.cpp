@@ -1,3 +1,4 @@
+#include <thread>
 #include "httpserver.h"
 #include "uri.h"
 #include "userrepository.h"
