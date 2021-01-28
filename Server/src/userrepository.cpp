@@ -17,10 +17,6 @@ UserFileRepository::UserFileRepository() : _fileName("managing_users.txt")
     }
 }
 
-UserFileRepository::~UserFileRepository()
-{
-}
-
 vector<User> UserFileRepository::getUsers()
 {
     string line;
@@ -31,7 +27,7 @@ vector<User> UserFileRepository::getUsers()
     {
         stringstream stream(line);
         User user;
-        stream >> user._name  >> user._password >> user._id >> user._isAdmin;
+        stream >> user._name  >> user._id >> user._password >> user._isAdmin;
         users.push_back(user);
     }
 

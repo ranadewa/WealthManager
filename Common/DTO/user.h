@@ -1,5 +1,4 @@
-#ifndef USER_H
-#define USER_H
+#pragma once
 
 #include<string>
 struct User
@@ -9,4 +8,3 @@ struct User
     std::string _password;
     bool _isAdmin;
 };
-#endif // USER_H

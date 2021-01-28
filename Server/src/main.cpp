@@ -1,8 +1,8 @@
+#include <thread>
 #include "httpserver.h"
 #include "uri.h"
-#include "userrepository.h"
-#include "usermanager.h"
 #include "usermanager_facade.h"
+#include "investmentsmanager_facade.h"
 
 
 int main () {
@@ -10,6 +10,9 @@ int main () {
 	HTTPServer server(URI::host);
 	UserManager userManager(make_unique<UserFileRepository>());
 	UserManagerFacade userManagerFacade(server, userManager);
+
+	Wealth::InvestmentManager investmentManager;
+	Facade::InvestmentManagerFacade investmentMangerFacade(server, investmentManager);
 
 	try
 	{

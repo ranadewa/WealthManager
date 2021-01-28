@@ -8,7 +8,7 @@ using namespace std;
 
 class UserManagerFacade
 {
-    typedef web::http::http_request HttpRequest;
+
 public:
     UserManagerFacade(HTTPServer &server, UserManager& manager);
 

@@ -9,18 +9,17 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-UserListWindow::UserListWindow(QWidget *parent, QNetworkAccessManager* manager) :
+UserListWindow::UserListWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::UserListWindow),
-    _manager(manager),
+    _manager(new QNetworkAccessManager()),
     _tableWidget(ui->usersTable)
 {
     ui->setupUi(this);
 
-
     QNetworkRequest request = Util::createRequest(URI::user.c_str());
 
-    QObject::connect(_manager,
+    QObject::connect(_manager.get(),
                      &QNetworkAccessManager::finished,
                      this,
                      [=](QNetworkReply *reply) {
@@ -38,12 +37,18 @@ UserListWindow::UserListWindow(QWidget *parent, QNetworkAccessManager* manager) 
                    auto i =0;
                    auto iter = users.begin();
                    auto end = users.end();
+
+                   ui->usersTable->setRowCount(users.size());
                    while(iter != end)
                    {
                        auto jsonObject = (*iter).toObject();
-                       _tableWidget->setItem(i, 0, new QTableWidgetItem(jsonObject["id"].toString()));
-                       _tableWidget->setItem(i, 1, new QTableWidgetItem(jsonObject["name"].toString()));
-                       _tableWidget->setItem(i, 2, new QTableWidgetItem(jsonObject["isAdmin"].toBool()));
+                       ui->usersTable->setColumnCount(jsonObject.size());
+
+                       ui->usersTable->setItem(i, 0, new QTableWidgetItem(jsonObject["id"].toString()));
+                        ui->usersTable->setItem(i, 1, new QTableWidgetItem(jsonObject["name"].toString()));
+                        ui->usersTable->setItem(i, 2, new QTableWidgetItem(jsonObject["isAdmin"].toBool()));
+                        ++iter;
+                        ++i;
                    }
 
                }

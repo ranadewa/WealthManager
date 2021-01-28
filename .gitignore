@@ -35,3 +35,4 @@ QTClient/build-Client-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/*
 build/*
 3rdParty/build/*
 QTClient/Client/CMakeLists.txt.user
+QTClient/Client/CMakeLists.txt.user
