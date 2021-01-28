@@ -11,5 +11,6 @@ namespace URI {
     const std::string user = "/user";
     const std::string authenticate = "/user/authenticate";
     const std::string changepassword = "/user/changepassword";
+    const std::string investments = "/investments";
 }
 #endif // URI_H

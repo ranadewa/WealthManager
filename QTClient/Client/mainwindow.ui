@@ -129,16 +129,6 @@
       <property name="title">
        <string>Banks</string>
       </property>
-      <widget class="QTableView" name="banksTable">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>30</y>
-         <width>221</width>
-         <height>111</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QPushButton" name="addBack">
        <property name="geometry">
         <rect>
@@ -150,6 +140,16 @@
        </property>
        <property name="text">
         <string>Add New</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="banksTable">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>20</y>
+         <width>211</width>
+         <height>121</height>
+        </rect>
        </property>
       </widget>
      </widget>
@@ -165,16 +165,6 @@
       <property name="title">
        <string>Capital Markets</string>
       </property>
-      <widget class="QTableView" name="capitalMarketsTable">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>30</y>
-         <width>221</width>
-         <height>111</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QPushButton" name="addShares">
        <property name="geometry">
         <rect>
@@ -186,6 +176,16 @@
        </property>
        <property name="text">
         <string>Add New</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="capitalMarketsTable">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>20</y>
+         <width>211</width>
+         <height>121</height>
+        </rect>
        </property>
       </widget>
      </widget>
@@ -201,16 +201,6 @@
       <property name="title">
        <string>Property</string>
       </property>
-      <widget class="QTableView" name="propertyTable">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>30</y>
-         <width>221</width>
-         <height>111</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QPushButton" name="addProperty">
        <property name="geometry">
         <rect>
@@ -222,6 +212,16 @@
        </property>
        <property name="text">
         <string>Add New</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="propertyTable">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>30</y>
+         <width>211</width>
+         <height>121</height>
+        </rect>
        </property>
       </widget>
      </widget>
@@ -237,16 +237,6 @@
       <property name="title">
        <string>Other</string>
       </property>
-      <widget class="QTableView" name="otherTable">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>30</y>
-         <width>221</width>
-         <height>111</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QPushButton" name="addOthers">
        <property name="geometry">
         <rect>
@@ -258,6 +248,16 @@
        </property>
        <property name="text">
         <string>Add New</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="otherInvTable">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>30</y>
+         <width>211</width>
+         <height>121</height>
+        </rect>
        </property>
       </widget>
      </widget>
@@ -314,7 +314,7 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -325,7 +325,7 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout"/>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>

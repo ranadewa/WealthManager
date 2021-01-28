@@ -11,7 +11,15 @@ MainWindow::MainWindow(QWidget *parent,  User user)
     , _user(user)
 {
     ui->setupUi(this);
-    _overView.reset(new Overview(ui->tableWidget, _manager.get()));
+    _overViewTab.reset(new Overview(ui->tableWidget));
+
+    InvestmentTables table;
+    table._map.insert({Wealth::InvestmentType::BANK, ui->banksTable});
+    table._map.insert({Wealth::InvestmentType::SHARE_MARKET, ui->capitalMarketsTable});
+    table._map.insert({Wealth::InvestmentType::PROPERTY, ui->propertyTable});
+    table._map.insert({Wealth::InvestmentType::OTHER, ui->otherInvTable});
+
+    _investmentTab.reset(new Investments( table, _user));
 }
 
 MainWindow::~MainWindow()
@@ -33,6 +41,25 @@ void MainWindow::on_addUser_clicked()
 
 void MainWindow::on_getUsers_clicked()
 {
-    UserListWindow window(this, _manager.get());
+    UserListWindow window(this);
     window.exec();
+}
+
+void MainWindow::on_mainTabs_currentChanged(int index)
+{
+    switch ((TabIndex)index) {
+        case TabIndex::OVERVIEW :
+        break;
+        case TabIndex::BUDGET :
+        break;
+        case TabIndex::BALANCE_SHEET :
+        break;
+        case TabIndex::INVESTMENTS :
+            _investmentTab->onSelected();
+        break;
+        case TabIndex::SYSTEM :
+        break;
+    default:
+        break;
+    }
 }

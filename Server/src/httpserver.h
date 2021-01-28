@@ -17,7 +17,7 @@ using namespace web::http::experimental::listener;
 #define TRACE(msg)            std::cout << msg << std::endl;
 #endif // _WIN32
 
-
+typedef web::http::http_request HttpRequest;
 
 class HTTPServer
 {

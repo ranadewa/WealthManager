@@ -33,7 +33,7 @@ endif()
 #    endif()
 #endif()
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
 
@@ -48,8 +48,8 @@ set(PROJECT_SOURCES
         utils.cpp
         overview.cpp
         overview.h
-        investments.h
-        investments.cpp
+        investmentstab.h
+        investmentstab.cpp
         constants.h
         mainwindow.ui
         loginwindow.h
@@ -81,8 +81,9 @@ else()
         )
     endif()
 endif()
-
+message("QT VERSION:: " ${QT_VERSION_MAJOR})
 # find_library(lib_common ${CMAKE_CURRENT_SOURCE_DIR}/../Common)
 # target_link_directories (lib_common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../Common)
-target_link_libraries(Client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt5::Network)
 target_link_libraries(Client PUBLIC lib_common)
+target_link_libraries(Client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt5::Network)
+

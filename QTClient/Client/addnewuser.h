@@ -14,7 +14,7 @@ class AddNewUser : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddNewUser(QWidget *parent = nullptr, QNetworkAccessManager* manager = nullptr);
+     AddNewUser(QWidget *parent = nullptr, QNetworkAccessManager* manager = nullptr);
     ~AddNewUser();
 
 private slots:

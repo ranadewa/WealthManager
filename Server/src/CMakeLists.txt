@@ -21,6 +21,8 @@ usermanager_facade.h
 usermanager_facade.cpp
 investmentsmanager.h
 investmentsmanager.cpp
+investmentsmanager_facade.h
+investmentsmanager_facade.cpp
 )
 
 

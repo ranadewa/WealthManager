@@ -6,8 +6,7 @@ namespace Wealth {
     class InvestmentManager
     {
     public:
-        InvestmentManager(/* args */);
-        ~InvestmentManager();
+        InvestmentManager(/* args */) {};
     private:
         /* data */
         std::unordered_map<InvestmentType, Investments> _investments;

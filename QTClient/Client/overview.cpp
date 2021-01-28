@@ -8,13 +8,16 @@
 #include <QJsonObject>
 
 
-Overview::Overview(QTableWidget* table, QNetworkAccessManager* manager) : _networkManager(manager), _tableWidget(table)
+Overview::Overview(QTableWidget* table) : _networkManager(new QNetworkAccessManager()), _tableWidget(table)
 {
-    assert(_tableWidget != nullptr);
 
+}
+
+void Overview::onSelected()
+{
     QNetworkRequest request = Util::createRequest(URI::overview.c_str());
 
-    QObject::connect(manager,
+    QObject::connect(_networkManager.get(),
                      &QNetworkAccessManager::finished,
                      this,
                      [=](QNetworkReply *reply) {
@@ -48,5 +51,5 @@ Overview::Overview(QTableWidget* table, QNetworkAccessManager* manager) : _netwo
        );
 
 
-    manager->get(request);
+    _networkManager->get(request);
 }

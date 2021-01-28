@@ -1,15 +1,23 @@
 #include "utils.h"
 #include "constants.h"
 #include "../../Common/uri.h"
+#include <QUrlQuery>
 
 namespace Util {
-    QNetworkRequest createRequest(QString uri)
+    QNetworkRequest createRequest(QString uri, QUrlQuery* query)
     {
         QString host(URI::host.c_str());
         QString overview = host + uri;
 
         QNetworkRequest request;
-        request.setUrl(QUrl(overview));
+        QUrl url = QUrl(overview);
+
+        if(query)
+        {
+            url.setQuery(*query);
+        }
+
+        request.setUrl(url);
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
         return request;

@@ -1,6 +1,7 @@
 #ifndef OVERVIEW_H
 #define OVERVIEW_H
 
+#include <memory>
 #include <QWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtNetwork/QNetworkAccessManager>
@@ -8,10 +9,11 @@
 class Overview : public QObject
 {
 public:
-    Overview(QTableWidget* table, QNetworkAccessManager* manager);
+    Overview(QTableWidget* table);
+    void onSelected();
 
 private:
-    QNetworkAccessManager* _networkManager;
+    std::unique_ptr<QNetworkAccessManager> _networkManager;
     QTableWidget* _tableWidget;
     QString _name;
     long _cash = 0;
