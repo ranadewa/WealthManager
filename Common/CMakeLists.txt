@@ -7,3 +7,5 @@ add_library(lib_common STATIC
 			DTO/investments.cpp 
 			uri.h
 			place_holder.cpp)
+
+include_directories(DTO/nlohmaan)
