@@ -61,13 +61,12 @@ void UserManagerFacade::onPasswordChange(HttpRequest request)
 void UserManagerFacade::add(HttpRequest request)
 {
 	parse(request, [this, request](json::value jvalue) {
-		auto name = utility::conversions::to_utf8string(jvalue.at(U("name")).as_string());
-		auto password = utility::conversions::to_utf8string(jvalue.at(U("password")).as_string());
-		auto isAdmin = jvalue.at(U("isAdmin")).as_bool();
+		
+		nlohmann::json object = nlohmann::json::parse(utility::conversions::to_utf8string(jvalue.serialize()));
 
 		string error;
 
-		User user{ name, "", password, isAdmin};
+		User user{ object };
 
 		if (_manager.addUser(std::move(user), error))
 		{
@@ -90,22 +89,14 @@ void UserManagerFacade::getUserList(HttpRequest request)
     cout << "getUserList." << endl;
 
 	vector<User> users = _manager.getUsers();
-	vector< web::json::value> jUsers;
+	auto jUsers = nlohmann::json::array();
 
 	std::transform(users.begin(), users.end(), back_inserter(jUsers), [](User const& user) {
-		auto userObj = web::json::value::object();
 
-		userObj[U("name")] = web::json::value(utility::conversions::to_string_t(user._name));
-		userObj[U("id")] = web::json::value(utility::conversions::to_string_t(user._id));
-		userObj[U("isAdmin")] = web::json::value(user._isAdmin);
-
-		return userObj;
+		return user.to_json();
 	});
 	
-
-	auto result = web::json::value::array(jUsers);
-
-	request.reply(http::status_codes::OK, result);
+	request.reply(http::status_codes::OK, jUsers.dump());
 }
 
 void UserManagerFacade::parse(HttpRequest request, function<void(json::value)> out)

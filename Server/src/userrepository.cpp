@@ -11,7 +11,7 @@ UserFileRepository::UserFileRepository() : _fileName("managing_users.txt")
 
         if (file.is_open())
         {
-            writeUser(file, User{ "admin", "1", "123", true });
+            writeUser(file, User("admin", "1", "123", true ));
         }
             
     }
