@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 get_directory_property(hasParent PARENT_DIRECTORY)
@@ -61,9 +61,6 @@ set(PROJECT_SOURCES
         addnewuser.h
         addnewuser.cpp
         addnewuser.ui
-        userlistwindow.h
-        userlistwindow.cpp
-        userlistwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

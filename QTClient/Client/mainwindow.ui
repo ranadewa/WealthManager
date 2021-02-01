@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="overview">
      <property name="toolTip">
@@ -271,8 +271,8 @@
        <rect>
         <x>20</x>
         <y>30</y>
-        <width>231</width>
-        <height>151</height>
+        <width>421</width>
+        <height>181</height>
        </rect>
       </property>
       <property name="title">
@@ -310,6 +310,16 @@
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QTableWidget" name="usersTable">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>20</y>
+         <width>221</width>
+         <height>121</height>
+        </rect>
+       </property>
       </widget>
      </widget>
     </widget>

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <variant>
 
 namespace Wealth {
     typedef double price;
@@ -39,6 +40,6 @@ namespace Wealth {
         Investments();
 
     private:
-        std::vector<Instrument> _investments;
+        std::variant<Instrument> _investments;
     }; 
 }
