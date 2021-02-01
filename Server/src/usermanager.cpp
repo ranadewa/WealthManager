@@ -13,40 +13,41 @@ UserManager::UserManager(IUserRepository::IUserRepositoryPtr repository) : _repo
     }
 }
 
-User UserManager::authenticate(string const& userName, string const& password)
+bool UserManager::authenticate(User& user)
 {
     User result{};
 
-    if (_idLookup.find(userName) != _idLookup.end())
+    if (_idLookup.find(user._name) != _idLookup.end())
     {
-        auto id = _idLookup.at(userName);
+        auto id = _idLookup.at(user._name);
 
         if (_users.find(id) != _users.end())
         {
             auto storedPassword = _users.at(id)._password; // To do decrypt password
 
-            if (storedPassword.compare(password) == 0) // passoword match
+            if (storedPassword.compare(user._password) == 0) // passoword match
             {
-                result = _users.at(id);
+                user = _users.at(id);
+                return true;
             }
         }
     }
 
-    return result;
+    return false;
 }
 
-bool UserManager::updatePassword(string const& id, string const& oldPassword, string const& newPassword)
+bool UserManager::updatePassword(User& user, string const& newPassword)
 {
 
-    if (_users.find(id) != _users.end())
+    if (_users.find(user._id) != _users.end())
     {
-        auto storedPassword = _users.at(id)._password; // To do decrypt password
+        auto storedPassword = _users.at(user._id)._password; // To do decrypt password
 
-        if (storedPassword.compare(oldPassword) == 0) // passoword match
+        if (storedPassword.compare(user._password) == 0) // passoword match
         {
             if (_repository->updateUsers(getUsers()))
             {
-                _users.at(id)._password = newPassword;
+                _users.at(user._id)._password = newPassword;
             }
         }
     }

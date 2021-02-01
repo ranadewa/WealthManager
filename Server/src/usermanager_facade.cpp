@@ -18,23 +18,17 @@ void UserManagerFacade::onAuthRequest(HttpRequest request)
     cout << "on Auth request received." << endl;
 
 	parse(request, [this, request](json::value jvalue) {
-		auto name = utility::conversions::to_utf8string(jvalue.at(U("name")).as_string());
-		auto password = utility::conversions::to_utf8string(jvalue.at(U("password")).as_string());
 
-		auto user = _manager.authenticate(name, password);
-		if (!user._id.empty())
+		nlohmann::json object = nlohmann::json::parse(utility::conversions::to_utf8string(jvalue.serialize()));
+		User user{ object };
+
+		if (_manager.authenticate(user))
 		{
-			auto result = web::json::value::object();
-
-			result[U("name")] = web::json::value(utility::conversions::to_string_t(user._name));
-			result[U("id")] = web::json::value(utility::conversions::to_string_t(user._id));
-			result[U("isAdmin")] = web::json::value(user._isAdmin);
-
-			request.reply(status_codes::OK, result);
+			request.reply(status_codes::OK, user.to_json().dump());
 		}
 		else
 		{
-			request.reply(status_codes::BadRequest, U("Invalid username or password"));
+			request.reply(status_codes::Unauthorized, U("Invalid username or password"));
 		}
 	});
 }
@@ -43,11 +37,13 @@ void UserManagerFacade::onPasswordChange(HttpRequest request)
 {
     cout << "onPasswordChange." << endl;
 	parse(request, [this, request](json::value jvalue) {
-		auto id = utility::conversions::to_utf8string(jvalue.at(U("id")).as_string());
-		auto newPassword = utility::conversions::to_utf8string(jvalue.at(U("newPassword")).as_string());
-		auto oldPassword = utility::conversions::to_utf8string(jvalue.at(U("oldPassword")).as_string());
 
-		if (_manager.updatePassword(id, oldPassword, newPassword))
+		nlohmann::json object = nlohmann::json::parse(utility::conversions::to_utf8string(jvalue.serialize()));
+		User user{ object };
+
+		auto newPassword = utility::conversions::to_utf8string(jvalue.at(U("newPassword")).as_string());
+
+		if (_manager.updatePassword(user, newPassword))
 		{
 			request.reply(status_codes::OK);
 		}
