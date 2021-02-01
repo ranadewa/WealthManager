@@ -9,35 +9,17 @@ namespace Facade {
 
     void InvestmentManagerFacade::getInvestments(HttpRequest request)
     {
-        std::cout << " body " << request.body() << std::endl;
-		request
-			.extract_utf8string()
-			.then([request, this](pplx::task < std::string > task) {
-			try
-			{
+		auto query = request.request_uri().query();
+		auto id = utility::conversions::to_utf8string(query.substr(5, query.size()));
 
-				std::string const& jvalue = task.get();
-				std::cout << "Body: " << jvalue << endl;
-
-				std::string id;
-
-				if (_manager.hasInvestment(id))
-				{
-					auto investments = _manager.getInvestments(id);
-				}
-				else
-				{
-					// TODO send error
-				}
-			}
-			catch (http_exception const& e)
-			{
-				request.reply(status_codes::InternalError, U("Internal Server Error"));
-				std::cout << e.what() << endl;
-			}
-		})
-			.wait();
-
-        request.reply(status_codes::OK, "Everything fine");
+        if (_manager.hasInvestment(id))
+        {
+            auto investments = _manager.getInvestments(id);
+            request.reply(status_codes::OK, investments.to_json().dump());
+        }
+        else
+        {
+            request.reply(status_codes::OK);
+        }
     }
 }

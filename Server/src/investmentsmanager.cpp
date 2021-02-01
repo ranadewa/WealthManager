@@ -9,7 +9,7 @@ namespace Wealth {
 
     bool InvestmentManager::hasInvestment(std::string userID)
     {
-        return _investments.find(userID) == _investments.end() ;
+        return _investments.find(userID) != _investments.end() ;
     }
 
 }
