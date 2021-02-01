@@ -11,8 +11,8 @@ class UserManager
 {
 public:
     UserManager(IUserRepository::IUserRepositoryPtr repository);
-    User authenticate(string const& userName, string const& password);
-    bool updatePassword(string const& id, string const& oldPassword, string const& newPassword);
+    bool authenticate(User & user);
+    bool updatePassword(User& user, string const& newPassword);
     bool addUser(User&& user, string & error);
     bool deleteUser(string const& userName, string const& password);
     vector<User> getUsers();

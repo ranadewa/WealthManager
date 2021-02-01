@@ -59,7 +59,7 @@ void ChangePassword::on_ok_clicked()
     QVariantMap data;
     data["id"] = QString(_user._id.c_str());
     data["newPassword"] = newPassword;
-    data["oldPassword"] = password;
+    data["password"] = password;
     QJsonDocument doc = QJsonDocument::fromVariant(data);
 
     _manager->post(request, doc.toJson());
