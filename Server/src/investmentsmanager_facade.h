@@ -13,5 +13,6 @@ namespace Facade {
 		Wealth::InvestmentManager& _manager;
 
 		void getInvestments(HttpRequest request);
+		void postInvestments(HttpRequest request);
 	};
 }

@@ -110,22 +110,7 @@ void MainWindow::on_mainTabs_currentChanged(int index)
     }
 }
 
-void MainWindow::on_addBank_clicked()
-{
-    _investmentTab->addInvestment();
-}
-
-void MainWindow::on_addShares_clicked()
-{
-    _investmentTab->addInvestment();
-}
-
-void MainWindow::on_addProperty_clicked()
-{
-    _investmentTab->addInvestment();
-}
-
-void MainWindow::on_addOthers_clicked()
+void MainWindow::on_addNew_clicked()
 {
     _investmentTab->addInvestment();
 }

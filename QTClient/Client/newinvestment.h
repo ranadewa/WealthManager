@@ -3,7 +3,9 @@
 
 #include <QDialog>
 #include <QMap>
+#include <QNetworkAccessManager>
 #include "../../Common/DTO/investments.h"
+#include "../../Common/DTO/nlohmann/json.hpp"
 
 namespace Ui {
 class NewInvestment;
@@ -17,6 +19,7 @@ public:
     explicit NewInvestment(QWidget *parent = nullptr);
     ~NewInvestment();
 
+     nlohmann::json _investment;
 private slots:
     void on_addInvestment_clicked();
 
@@ -25,6 +28,11 @@ private slots:
 private:
     Ui::NewInvestment *ui;
     QMap<QString, Wealth::InvestmentType> _typeMapper;
+
+
+    void updateCategory();
+    void updateCurrency();
+    std::string getType(Wealth::InvestmentType type);
 };
 
 #endif // NEWINVESTMENT_H
