@@ -16,6 +16,7 @@ public:
     bool addUser(User&& user, string & error);
     bool deleteUser(string const& userName, string const& password);
     vector<User> getUsers();
+    vector<string> getUserIds();
 
 private:
     unordered_map<string, User> _users;

@@ -18,7 +18,7 @@ int main () {
 	UserManager userManager(make_unique<UserFileRepository>());
 	UserManagerFacade userManagerFacade(server, userManager);
 
-	Wealth::InvestmentManager investmentManager;
+	Wealth::InvestmentManager investmentManager(make_unique<Wealth::InvestmentsRepository>(userManager.getUserIds()));
 	Facade::InvestmentManagerFacade investmentMangerFacade(server, investmentManager);
 
 	try

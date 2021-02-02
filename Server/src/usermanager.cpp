@@ -96,3 +96,14 @@ vector<User> UserManager::getUsers()
 
     return users;
 }
+
+vector<string> UserManager::getUserIds()
+{
+    std::vector<string> userIds;
+
+    transform(_users.begin(), _users.end(), std::back_inserter(userIds), [this](std::pair<string, User> const& pair) {
+        return pair.second._id;
+    });
+
+    return userIds;
+}
