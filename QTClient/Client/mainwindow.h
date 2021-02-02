@@ -39,6 +39,15 @@ private slots:
 
     void on_mainTabs_currentChanged(int index);
 
+
+    void on_addBank_clicked();
+
+    void on_addShares_clicked();
+
+    void on_addProperty_clicked();
+
+    void on_addOthers_clicked();
+
 private:
 
     Ui::MainWindow *ui;

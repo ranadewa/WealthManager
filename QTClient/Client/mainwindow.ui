@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="overview">
      <property name="toolTip">
@@ -129,7 +129,7 @@
       <property name="title">
        <string>Banks</string>
       </property>
-      <widget class="QPushButton" name="addBack">
+      <widget class="QPushButton" name="addBank">
        <property name="geometry">
         <rect>
          <x>20</x>

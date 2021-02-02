@@ -18,6 +18,7 @@ class Investments : public QObject
 public:
     Investments(InvestmentTables tables,  User& _user);
     void onSelected();
+    void addInvestment();
 
 private:
     std::unique_ptr<QNetworkAccessManager> _networkManager;

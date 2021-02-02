@@ -61,6 +61,9 @@ set(PROJECT_SOURCES
         addnewuser.h
         addnewuser.cpp
         addnewuser.ui
+        newinvestment.cpp
+        newinvestment.h
+        newinvestment.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
