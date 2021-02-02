@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "newinvestment.h"
 
 Investments::Investments(InvestmentTables tables,  User& user) : _networkManager(new QNetworkAccessManager()),
     _tables(std::move(tables)),
@@ -40,4 +41,10 @@ void Investments::onSelected()
     QNetworkRequest request = Util::createRequest(URI::investments.c_str(), &query);
 
     _networkManager->get(request);
+}
+
+void Investments::addInvestment()
+{
+    NewInvestment window;
+    window.exec();
 }
