@@ -4,8 +4,9 @@ HTTPServer::HTTPServer(string baseURI) : _baseURI(utility::conversions::to_strin
 {
 	_listner.support([this](web::http::http_request request) {
 
-		auto path = request.method() + request.request_uri().to_string();
+		auto path = request.method() + request.request_uri().path();
 		TRACE(path);
+
 		if (_routes.find(path) != _routes.end())
 		{
 			_routes.at(path)(request);

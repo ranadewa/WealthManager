@@ -10,7 +10,7 @@ namespace Facade {
 		InvestmentManagerFacade(HTTPServer& server, Wealth::InvestmentManager& manager);
 
 	private:
-		Wealth::InvestmentManager _manager;
+		Wealth::InvestmentManager& _manager;
 
 		void getInvestments(HttpRequest request);
 	};
