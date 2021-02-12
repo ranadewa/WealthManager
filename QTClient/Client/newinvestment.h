@@ -6,6 +6,7 @@
 #include <QNetworkAccessManager>
 #include "../../Common/DTO/investments.h"
 #include "../../Common/DTO/nlohmann/json.hpp"
+#include "../../Common/DTO/user.h"
 
 namespace Ui {
 class NewInvestment;
@@ -16,7 +17,7 @@ class NewInvestment : public QDialog
     Q_OBJECT
 
 public:
-    explicit NewInvestment(QWidget *parent = nullptr);
+    explicit NewInvestment(QWidget *parent = nullptr, User user = {});
     ~NewInvestment();
 
      nlohmann::json _investment;
@@ -28,8 +29,9 @@ private slots:
 private:
     Ui::NewInvestment *ui;
     QMap<QString, Wealth::InvestmentType> _typeMapper;
+    QMap<QString, Wealth::Currency> _currencyMapper;
 
-
+    User _user;
     void updateCategory();
     void updateCurrency();
     std::string getType(Wealth::InvestmentType type);

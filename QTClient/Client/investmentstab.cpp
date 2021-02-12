@@ -45,7 +45,7 @@ void Investments::onSelected()
 
 void Investments::addInvestment()
 {
-    NewInvestment window;
+    NewInvestment window(nullptr, _user);
     window.exec();
 
     if(window.exec())

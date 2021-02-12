@@ -10,6 +10,7 @@ namespace Wealth {
         InvestmentManager(IInvestmentRepository::IInvestmentRepositoryPtr repository);
         Investments getInvestments(std::string userID);
         bool hasInvestment(std::string userID);
+        void update(std::string id, nlohmann::json const& info);
 
 
     private:

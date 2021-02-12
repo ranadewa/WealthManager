@@ -7,9 +7,15 @@ struct User
 {
     User(std::string name, std::string id, std::string password,  bool isAdmin) : 
         _name(name), _id(id), _password(password), _isAdmin(isAdmin) {}
-    User() {};
+    User(User const& user) {
+        _name = user._name;
+        _id = user._id;
+        _password = user._password;
+        _isAdmin = user._isAdmin;
+    };
 
-    User(const nlohmann::json& j) {
+    User(){}
+    User(nlohmann::json const& j) {
 
         if (has(NAME_KEY, j))
             j.at(NAME_KEY).get_to(_name);

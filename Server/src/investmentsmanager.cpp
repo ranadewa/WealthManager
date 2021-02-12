@@ -17,4 +17,18 @@ namespace Wealth {
         return _investments.find(userID) != _investments.end() ;
     }
 
+    void InvestmentManager::update(std::string id, nlohmann::json const& info)
+    {
+        if (_investments.find(id) != _investments.end())
+        {
+            _investments.at(id).update(info);
+        }
+        else
+        {
+            Investments inv;
+            inv.update(info);
+            _investments.insert({ id, inv });
+        }
+    }
+
 }
