@@ -45,6 +45,17 @@ void Investments::onSelected()
 
 void Investments::addInvestment()
 {
-    NewInvestment window;
+    NewInvestment window(nullptr, _user);
     window.exec();
+
+    if(window.exec())
+    {
+        QUrlQuery query;
+        query.addQueryItem(QString("user"), QString(_user._id.c_str()));
+
+        QNetworkRequest request = Util::createRequest(URI::investments.c_str(), &query);
+
+        _networkManager->post(request, window._investment.dump().c_str());
+    }
+
 }
