@@ -5,6 +5,7 @@
 
 #include<iostream>
 #include <functional>
+#include <mutex>
 
 using namespace std;
 using namespace web;
@@ -33,5 +34,6 @@ public:
 private:
 	utility::string_t _baseURI;
 	http_listener _listner;
+	std::mutex _mutex;
 	std::unordered_map<utility::string_t, Action> _routes;
 };

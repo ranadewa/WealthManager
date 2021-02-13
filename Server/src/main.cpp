@@ -26,12 +26,15 @@ int main () {
 
 	try
 	{
-		server.start();
 
-		while (true)
+		std::thread t(&HTTPServer::start, &server);  // Start server in a separate thread
+
+		while (true)  // Server is designed to spin endlessly
 		{
 			this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
+
+		t.join();
 	}
 	catch (const std::exception& ex)
 	{
