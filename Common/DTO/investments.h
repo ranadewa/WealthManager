@@ -31,6 +31,8 @@ namespace Wealth {
         std::string _name;
         std::vector<Amount> _values;
 
+        Holding(std::string const& name, std::vector<Amount> const& values) : _name{ name }, _values{ values } {}
+        Holding(nlohmann::json const& account);
         void update(Amount const& amount);
 
         nlohmann::json to_json() const;

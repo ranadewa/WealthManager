@@ -27,4 +27,13 @@ namespace Wealth {
 
         return userInvestments;
     }
+
+    void InvestmentsRepository::updateInvestment(std::string userID, Investments const& investments)
+    {
+        auto fileName = userID + std::string("_investments.json");
+
+        ofstream investmentFile(fileName, ofstream::trunc);
+
+        investmentFile << investments.to_json();
+    }
 }

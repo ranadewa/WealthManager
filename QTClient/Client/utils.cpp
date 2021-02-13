@@ -2,6 +2,7 @@
 #include "constants.h"
 #include "../../Common/uri.h"
 #include <QUrlQuery>
+#include <QMap>
 
 namespace Util {
     QNetworkRequest createRequest(QString uri, QUrlQuery* query)
@@ -28,5 +29,11 @@ namespace Util {
         return QString::fromWCharArray(string.c_str());
     }
 
+    QString CurrencyMapper::getKey(Wealth::Currency currency)
+    {
+        return _currencyMapper.key(currency);
+    }
+
+    QMap<QString, Wealth::Currency> CurrencyMapper::_currencyMapper;
 }
 

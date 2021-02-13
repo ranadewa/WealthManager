@@ -29,7 +29,6 @@ private slots:
 private:
     Ui::NewInvestment *ui;
     QMap<QString, Wealth::InvestmentType> _typeMapper;
-    QMap<QString, Wealth::Currency> _currencyMapper;
 
     User _user;
     void updateCategory();

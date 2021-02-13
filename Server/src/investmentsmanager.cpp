@@ -19,16 +19,14 @@ namespace Wealth {
 
     void InvestmentManager::update(std::string id, nlohmann::json const& info)
     {
-        if (_investments.find(id) != _investments.end())
-        {
-            _investments.at(id).update(info);
-        }
-        else
+        if (_investments.find(id) == _investments.end())
         {
             Investments inv;
-            inv.update(info);
             _investments.insert({ id, inv });
-        }
+        }   
+
+        _investments.at(id).update(info);
+        _repository->updateInvestment(id, _investments.at(id));
     }
 
 }

@@ -101,7 +101,7 @@ void MainWindow::on_mainTabs_currentChanged(int index)
         case TabIndex::BALANCE_SHEET :
         break;
         case TabIndex::INVESTMENTS :
-            _investmentTab->onSelected();
+          _investmentTab->onSelected();
         break;
         case TabIndex::SYSTEM :
         break;

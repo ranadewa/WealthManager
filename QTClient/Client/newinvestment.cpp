@@ -1,7 +1,7 @@
 #include "newinvestment.h"
 #include "ui_newinvestment.h"
 #include <QStringList>
-
+#include "utils.h"
 
 NewInvestment::NewInvestment(QWidget *parent, User user) :
     QDialog(parent),
@@ -14,9 +14,6 @@ NewInvestment::NewInvestment(QWidget *parent, User user) :
     _typeMapper.insert(QString("Property"), Wealth::InvestmentType::PROPERTY);
     _typeMapper.insert(QString("Other"), Wealth::InvestmentType::OTHER);
 
-    _currencyMapper.insert(QString("USD"), Wealth::Currency::USD);
-    _currencyMapper.insert(QString("SGD"), Wealth::Currency::SGD);
-    _currencyMapper.insert(QString("LKR"), Wealth::Currency::LKR);
 
     ui->mainType->addItems(QStringList(_typeMapper.keys()));
     updateCategory();
@@ -35,7 +32,7 @@ void NewInvestment::on_addInvestment_clicked()
                                      {Wealth::Investments::CATEGORY_KEY.c_str(), ui->category->currentText().toStdString()},
                                      {Wealth::Holding::NAME_KEY.c_str(), ui->name->text().toStdString()},
                                      {Wealth::Amount::VALUE_KEY.c_str(), ui->amount->text().toDouble()},
-                                     {Wealth::Amount::CURRENCY_KEY.c_str(), _currencyMapper.value(ui->currency->currentText())},
+                                     {Wealth::Amount::CURRENCY_KEY.c_str(), Util::CurrencyMapper::_currencyMapper.value(ui->currency->currentText())},
                                      {"userid", _user._id}
                                  });
     accept();
@@ -70,7 +67,7 @@ void NewInvestment::updateCategory()
 
 void NewInvestment::updateCurrency()
 {
-    ui->currency->addItems(QStringList(_currencyMapper.keys()));
+    ui->currency->addItems(QStringList(Util::CurrencyMapper::_currencyMapper.keys()));
 }
 
 std::string NewInvestment::getType(Wealth::InvestmentType type)

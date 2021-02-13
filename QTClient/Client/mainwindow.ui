@@ -122,8 +122,8 @@
        <rect>
         <x>30</x>
         <y>40</y>
-        <width>271</width>
-        <height>191</height>
+        <width>351</width>
+        <height>211</height>
        </rect>
       </property>
       <property name="title">
@@ -132,21 +132,51 @@
       <widget class="QTableWidget" name="banksTable">
        <property name="geometry">
         <rect>
-         <x>30</x>
+         <x>20</x>
          <y>20</y>
-         <width>211</width>
-         <height>121</height>
+         <width>311</width>
+         <height>181</height>
         </rect>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="columnCount">
+        <number>3</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>AC Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Bank Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Values</string>
+        </property>
+       </column>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_4">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>40</y>
-        <width>271</width>
-        <height>191</height>
+        <x>410</x>
+        <y>50</y>
+        <width>361</width>
+        <height>201</height>
        </rect>
       </property>
       <property name="title">
@@ -157,19 +187,37 @@
         <rect>
          <x>30</x>
          <y>20</y>
-         <width>211</width>
-         <height>121</height>
+         <width>311</width>
+         <height>161</height>
         </rect>
        </property>
+       <property name="columnCount">
+        <number>3</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Value</string>
+        </property>
+       </column>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_5">
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>240</y>
-        <width>271</width>
-        <height>191</height>
+        <y>270</y>
+        <width>351</width>
+        <height>231</height>
        </rect>
       </property>
       <property name="title">
@@ -180,19 +228,37 @@
         <rect>
          <x>30</x>
          <y>30</y>
-         <width>211</width>
-         <height>121</height>
+         <width>301</width>
+         <height>181</height>
         </rect>
        </property>
+       <property name="columnCount">
+        <number>3</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Value</string>
+        </property>
+       </column>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_6">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>240</y>
-        <width>271</width>
-        <height>191</height>
+        <x>410</x>
+        <y>280</y>
+        <width>371</width>
+        <height>221</height>
        </rect>
       </property>
       <property name="title">
@@ -203,17 +269,35 @@
         <rect>
          <x>30</x>
          <y>30</y>
-         <width>211</width>
-         <height>121</height>
+         <width>321</width>
+         <height>171</height>
         </rect>
        </property>
+       <property name="columnCount">
+        <number>3</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Value</string>
+        </property>
+       </column>
       </widget>
      </widget>
      <widget class="QPushButton" name="addNew">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>470</y>
+        <x>800</x>
+        <y>500</y>
         <width>75</width>
         <height>23</height>
        </rect>
