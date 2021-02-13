@@ -13,6 +13,7 @@ namespace Wealth {
         class IInvestmentRepository {
         public:
             virtual UserInvestments getInvestments() = 0;
+            virtual void updateInvestment(std::string userID, Investments const& investments) = 0;
 
             typedef unique_ptr<IInvestmentRepository> IInvestmentRepositoryPtr;
     };
@@ -22,6 +23,7 @@ namespace Wealth {
     public:
         InvestmentsRepository(vector<string> userIds);
         UserInvestments getInvestments() override;
+        void updateInvestment(std::string userID, Investments const& investments) override;
 
     private:
 

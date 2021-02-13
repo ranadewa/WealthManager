@@ -10,6 +10,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "utils.h"
 
 MainWindow::MainWindow(QWidget *parent,  User user)
     : QMainWindow(parent)
@@ -18,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent,  User user)
     , _user(user)
 {
     ui->setupUi(this);
-    _overViewTab.reset(new Overview(ui->tableWidget));
+    _overViewTab.reset(new Overview(ui->tableWidget, _user));
 
     InvestmentTables table;
     table._map.insert({Wealth::InvestmentType::BANK, ui->banksTable});
@@ -27,6 +28,10 @@ MainWindow::MainWindow(QWidget *parent,  User user)
     table._map.insert({Wealth::InvestmentType::OTHER, ui->otherInvTable});
 
     _investmentTab.reset(new Investments( table, _user));
+
+    ui->sourceCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::USD));
+    ui->destinationCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::SGD));
+    ui->destinationCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::LKR));
 }
 
 MainWindow::~MainWindow()
@@ -91,26 +96,62 @@ void MainWindow::on_getUsers_clicked()
     _manager->get(request);
 }
 
-void MainWindow::on_mainTabs_currentChanged(int index)
+void MainWindow::on_addNew_clicked()
+{
+    _investmentTab->addInvestment();
+}
+
+void MainWindow::on_updateButton_clicked()
+{
+    auto desitnationCurrency  = Util::CurrencyMapper::_currencyMapper.value(ui->destinationCurrency->currentText());
+    auto value = ui->conversionRate->text().toDouble();
+
+    auto request = Util::createRequest(URI::currency.c_str());
+
+    QObject::connect(_manager.get(),
+                     &QNetworkAccessManager::finished,
+                     this,
+                     [=](QNetworkReply *reply) {
+               if (reply->error()) {
+                   qDebug() << reply->errorString();
+                   return;
+               }
+               else
+               {
+                   QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+
+                   if(!statusCode.isNull() && statusCode.toInt() == 200)
+                   {
+                   }
+
+                   // TODO handle reject
+               }
+           }
+       );
+
+
+    QVariantMap data;
+    data["currency"] = (int)desitnationCurrency;
+    data["value"] = value;
+
+    QJsonDocument doc = QJsonDocument::fromVariant(data);
+
+    _manager->post(request, doc.toJson());
+}
+
+
+void MainWindow::on_tabWidget_currentChanged(int index)
 {
     switch ((TabIndex)index) {
         case TabIndex::OVERVIEW :
-        break;
-        case TabIndex::BUDGET :
-        break;
-        case TabIndex::BALANCE_SHEET :
+         _overViewTab->onSelected();
         break;
         case TabIndex::INVESTMENTS :
-            _investmentTab->onSelected();
+          _investmentTab->onSelected();
         break;
         case TabIndex::SYSTEM :
         break;
     default:
         break;
     }
-}
-
-void MainWindow::on_addNew_clicked()
-{
-    _investmentTab->addInvestment();
 }

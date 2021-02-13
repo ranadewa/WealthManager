@@ -20,6 +20,8 @@ investmentsmanager_facade.h
 investmentsmanager_facade.cpp
 investmentsrepository.h
 investmentsrepository.cpp
+currencyconverter.h
+currencyconverter.cpp
 )
 
 

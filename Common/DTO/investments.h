@@ -3,16 +3,10 @@
 #include <vector>
 #include <variant>
 #include "nlohmann/json.hpp"
+#include "conversionrates.h"
 
 namespace Wealth {
     typedef double price;
-
-    enum class Currency
-    {
-        USD, // US Dollar
-        SGD, // Singapore Dollar
-        LKR  // Sri Lankan Rupee
-    };
 
     struct Amount
     {
@@ -31,7 +25,10 @@ namespace Wealth {
         std::string _name;
         std::vector<Amount> _values;
 
+        Holding(std::string const& name, std::vector<Amount> const& values) : _name{ name }, _values{ values } {}
+        Holding(nlohmann::json const& account);
         void update(Amount const& amount);
+        double total(CoversionRates const& conversion) const;
 
         nlohmann::json to_json() const;
 
@@ -42,6 +39,8 @@ namespace Wealth {
     struct Holdings {
 
         void update(nlohmann::json const& j);
+        double total(CoversionRates const& conversion);
+
         std::vector<Holding> _holdings;
     };
 
@@ -51,6 +50,7 @@ namespace Wealth {
         nlohmann::json to_json() const;
 
         void update(nlohmann::json const& info);
+        double total(CoversionRates const& conversion);
 
         Holdings _cashAccounts;
         Holdings _fixedDeposits;
@@ -68,6 +68,7 @@ namespace Wealth {
         nlohmann::json to_json() const;
 
         void update(nlohmann::json const& j);
+        double total(CoversionRates const& conversion);
 
         Holdings _equities;
         Holdings _bonds;
@@ -87,6 +88,7 @@ namespace Wealth {
         nlohmann::json to_json() const;
         
         void update(nlohmann::json const& j);
+        double total(CoversionRates const& conversion);
 
         Holdings _residential;
         Holdings _commercial;
@@ -103,7 +105,9 @@ namespace Wealth {
         OtherInvestments() {}
         OtherInvestments(nlohmann::json const& j);
         nlohmann::json to_json() const;
+
         void update(nlohmann::json const& j);
+        double total(CoversionRates const& conversion);
 
         bool _invalid{ false };
         Holdings _others;
@@ -121,6 +125,30 @@ namespace Wealth {
         OTHER
     };
 
+    class Overview
+    {
+    public:
+        Overview(double  bank, double shares, double properties, double others);
+
+        nlohmann::json to_json() const;
+        std::string _userName;
+
+        static inline const std::string NAME_KEY{ "name" };
+        static inline const std::string BANK_KEY{ "bank" };
+        static inline const std::string SHARES_KEY{ "shares" };
+        static inline const std::string PROPERTIES_KEY{ "properties" };
+        static inline const std::string OTHERS_KEY{ "others" };
+        static inline const std::string NETWORTH_KEY{ "networth" };
+
+    private:
+        double _totalBank;
+        double _totalShareMarket;
+        double _totalProperty;
+        double _totalOther;
+        double _netWorth;
+
+    };
+
     class Investments
     {
        
@@ -128,8 +156,11 @@ namespace Wealth {
         Investments();
         using InvestmentVariant = std::variant<Bank, ShareMarket, Property, OtherInvestments>;
         Investments(const nlohmann::json& j);
+
         nlohmann::json to_json() const;
         void update(nlohmann::json const& info);
+        Overview createOverview(CoversionRates conversions);
+
         static inline const std::string TYPE_KEY{ "type" };
         static inline const std::string CATEGORY_KEY{ "category" };
     private:

@@ -24,6 +24,11 @@ private:
     std::unique_ptr<QNetworkAccessManager> _networkManager;
     InvestmentTables _tables;
     User& _user;
+    void addToBankTable(QJsonObject const& investment);
+    void addToShareMaketTable(QJsonObject const& investment);
+    void addToPropertiesTable(QJsonObject const& investment);
+    void addToOtherTable(QJsonObject const& investment);
+    int addValuesToTable(QTableWidget* table, QJsonArray array, int rowIndex =0);
 };
 
 #endif // INVESTMENTS_H

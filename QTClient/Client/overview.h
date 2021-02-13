@@ -5,21 +5,18 @@
 #include <QWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtNetwork/QNetworkAccessManager>
+#include "../../Common/DTO/user.h"
 
 class Overview : public QObject
 {
 public:
-    Overview(QTableWidget* table);
+    Overview(QTableWidget* table,  User& user);
     void onSelected();
 
 private:
     std::unique_ptr<QNetworkAccessManager> _networkManager;
+    User& _user;
     QTableWidget* _tableWidget;
-    QString _name;
-    long _cash = 0;
-    long _investment= 0;
-    long _liabilities= 0;
-    long _netWorth = 0;
 };
 
 #endif // OVERVIEW_H

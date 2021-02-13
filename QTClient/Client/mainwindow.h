@@ -14,8 +14,6 @@ QT_END_NAMESPACE
 
 enum class TabIndex {
     OVERVIEW = 0,
-    BUDGET,
-    BALANCE_SHEET,
     INVESTMENTS,
     SYSTEM
 };
@@ -37,9 +35,11 @@ private slots:
 
     void on_getUsers_clicked();
 
-    void on_mainTabs_currentChanged(int index);
-
     void on_addNew_clicked();
+
+    void on_updateButton_clicked();
+
+    void on_tabWidget_currentChanged(int index);
 
 private:
 

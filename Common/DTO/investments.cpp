@@ -15,6 +15,45 @@ namespace Wealth {
         return values;
     }
 
+    void setValuesFromObject(std::string const& key, nlohmann::json const& object, Holdings& holdings)
+    {
+        if (object.find(key) != object.end())
+        {
+            auto accounts = object.at(key);
+
+            std::transform(accounts.begin(), accounts.end(), std::back_inserter(holdings._holdings), [](nlohmann::json const& account) {
+                return Holding(account);
+            });
+        }
+    }
+
+    Overview Investments::createOverview(CoversionRates conversions)
+    {
+        double bank = 0, shares = 0, properties = 0, other = 0;
+
+        for (auto& investment : _investments)
+        {
+            if (std::holds_alternative<Bank>(investment))
+            {
+                bank = std::get<Bank>(investment).total(conversions);
+            }
+            else if (std::holds_alternative<ShareMarket>(investment))
+            {
+                shares = std::get<ShareMarket>(investment).total(conversions);
+            }
+            else if (std::holds_alternative<Property>(investment))
+            {
+                properties = std::get<Property>(investment).total(conversions);
+            }
+            else if (std::holds_alternative<OtherInvestments>(investment))
+            {
+                other = std::get<OtherInvestments>(investment).total(conversions);
+            }
+        }
+        
+        return Overview(bank, shares, properties, other);
+    }
+
     void Investments::update(nlohmann::json const& info)
     {
         if (info.find(TYPE_KEY) != info.end())
@@ -56,9 +95,41 @@ namespace Wealth {
         _investments.push_back(OtherInvestments());
     }
 
-    Investments::Investments(const nlohmann::json& j)
+    Investments::Investments(const nlohmann::json& j) : Investments()
     {
-        update(j);
+        auto iter = j.begin();
+        auto end = j.end();
+
+        while (iter != end)
+        {
+            auto info = *iter;
+
+            if (info.find(TYPE_KEY) != info.end())
+            {
+                InvestmentType type;
+                info.at(TYPE_KEY).get_to<InvestmentType>(type);
+
+                switch (type)
+                {
+                case Wealth::InvestmentType::BANK:
+                    _investments.push_back(Bank(info));
+                    break;
+                case Wealth::InvestmentType::SHARE_MARKET:
+                    _investments.push_back(ShareMarket(info));
+                    break;
+                case Wealth::InvestmentType::PROPERTY:
+                    _investments.push_back(Property(info));
+                    break;
+                case Wealth::InvestmentType::OTHER:
+                    _investments.push_back(OtherInvestments(info));
+                    break;
+                default:
+                    break;
+                }
+            }
+
+            ++iter;
+        }
     }
 
     nlohmann::json Wealth::Investments::to_json() const
@@ -78,12 +149,13 @@ namespace Wealth {
 
     Bank::Bank(nlohmann::json const& j)
     {
-        update(j);
+        setValuesFromObject(CASHACCOUNT_KEY, j, _cashAccounts);
+        setValuesFromObject(FIXEDDEPOSIT_KEY, j, _fixedDeposits);
     }
 
     nlohmann::json Bank::to_json() const
     {
-        return nlohmann::json({ {TYPE_KEY, "bank"},
+        return nlohmann::json({ {TYPE_KEY, InvestmentType::BANK},
                                 {CASHACCOUNT_KEY, transformToJson(_cashAccounts._holdings)},
                                 {FIXEDDEPOSIT_KEY,  transformToJson(_fixedDeposits._holdings)} });
     }
@@ -95,19 +167,29 @@ namespace Wealth {
             std::string category = j[CATEGORY_KEY];
             Holdings empty{};
             Holdings& selected = (category.compare(CASHACCOUNT_KEY) == 0) ? _cashAccounts :
-                (category.compare(CASHACCOUNT_KEY) == 0) ? _fixedDeposits : empty;
+                (category.compare(FIXEDDEPOSIT_KEY) == 0) ? _fixedDeposits : empty;
 
             selected.update(j);
         }
     }
 
+    double Bank::total(CoversionRates const& conversion)
+    {
+        double total = _cashAccounts.total(conversion) + _fixedDeposits.total(conversion);
+
+        return total;
+    }
+
     ShareMarket::ShareMarket(nlohmann::json const& j)
     {
+        setValuesFromObject(EQUITIES_KEY, j, _equities);
+        setValuesFromObject(BONDS_KEY, j, _bonds);
+        setValuesFromObject(REITS_KEY, j, _reits);
     }
 
     nlohmann::json ShareMarket::to_json() const
     {
-        return nlohmann::json({ {TYPE_KEY, "shareMarket"},
+        return nlohmann::json({ {TYPE_KEY, InvestmentType::SHARE_MARKET},
                                 {EQUITIES_KEY, transformToJson(_equities._holdings)},
                                 {BONDS_KEY,  transformToJson(_bonds._holdings)},
                                 {REITS_KEY,  transformToJson(_reits._holdings)} });
@@ -128,13 +210,21 @@ namespace Wealth {
         }
     }
 
+    double ShareMarket::total(CoversionRates const& conversion)
+    {
+        return _equities.total(conversion) + _bonds.total(conversion) + _reits.total(conversion);
+    }
+
     Property::Property(nlohmann::json const& j)
     {
+        setValuesFromObject(COMMERCIAL_KEY, j, _commercial);
+        setValuesFromObject(RESIDENTIAL_KEY, j, _residential);
+        setValuesFromObject(LAND_KEY, j, _land);
     }
 
     nlohmann::json Property::to_json() const
     {
-        return nlohmann::json({ {TYPE_KEY, "property"},
+        return nlohmann::json({ {TYPE_KEY, InvestmentType::PROPERTY},
                                 {COMMERCIAL_KEY, transformToJson(_commercial._holdings)},
                                 {RESIDENTIAL_KEY,  transformToJson(_residential._holdings)},
                                 {LAND_KEY,  transformToJson(_land._holdings)} });
@@ -155,13 +245,19 @@ namespace Wealth {
         }
     }
 
+    double Property::total(CoversionRates const& conversion)
+    {
+        return _commercial.total(conversion) + _residential.total(conversion) + _land.total(conversion);
+    }
+
     OtherInvestments::OtherInvestments(nlohmann::json const& j)
     {
+        setValuesFromObject(OTHER_KEY, j, _others);
     }
 
     nlohmann::json OtherInvestments::to_json() const
     {
-        return nlohmann::json({ {TYPE_KEY, "other"},
+        return nlohmann::json({ {TYPE_KEY, InvestmentType::OTHER},
                                 {OTHER_KEY, transformToJson(_others._holdings)} });
     }
 
@@ -169,12 +265,13 @@ namespace Wealth {
     {
         if (j.find(CATEGORY_KEY) != j.end() && j.find(Holding::NAME_KEY) != j.end())
         {
-            std::string category = j[CATEGORY_KEY];
-            Holdings empty{};
-            Holdings& selected = (category.compare(OTHER_KEY) == 0) ? _others : empty;
-
-            selected.update(j);
+            _others.update(j);
         }
+    }
+
+    double OtherInvestments::total(CoversionRates const& conversion)
+    {
+        return _others.total(conversion);
     }
 
     Amount::Amount(nlohmann::json const& j) : _value{ 0 }, _currency{ Currency::USD }
@@ -191,6 +288,21 @@ namespace Wealth {
         return nlohmann::json{ {VALUE_KEY, _value}, {CURRENCY_KEY, _currency} };
     }
 
+    Holding::Holding(nlohmann::json const& account)
+    {
+        if (account.find(NAME_KEY) != account.end())
+            account.at(NAME_KEY).get_to(_name);
+
+        if (account.find(VALUES_KEY) != account.end())
+        {
+            auto values = account.at(VALUES_KEY);
+            
+            std::transform(values.begin(), values.end(), std::back_inserter(_values), [](nlohmann::json const& amount) {
+                return Amount(amount);
+            });
+        }
+    }
+
     void Holding::update(Amount const& amount)
     {
         auto iter = std::find_if(_values.begin(), _values.end(), [&amount](Amount const& amt) {
@@ -205,6 +317,18 @@ namespace Wealth {
         {
             _values.push_back(amount);
         }
+    }
+
+    double Holding::total(CoversionRates const& conversion) const
+    {
+        double total{ 0 };
+
+        for (auto const& amount : _values)
+        {
+            total += (amount._currency == Currency::USD) ? amount._value : (amount._value / conversion.getRate(amount._currency));
+        }
+
+        return total;
     }
 
     nlohmann::json Holding::to_json() const
@@ -230,5 +354,32 @@ namespace Wealth {
             Holding holding{ name, {amount} };
             _holdings.push_back(holding);
         }
+    }
+
+    double Holdings::total(CoversionRates const& conversion)
+    {
+        double total{ 0 };
+
+        for (auto const& account : _holdings)
+        {
+            total += account.total(conversion);
+        }
+
+        return total;
+    }
+
+    Overview::Overview(double bank, double shares, double properties, double others):
+        _totalBank(bank), _totalShareMarket(shares), _totalProperty(properties), _totalOther(others)
+    {
+        _netWorth = _totalBank + _totalShareMarket + _totalProperty + _totalOther;
+    }
+
+    nlohmann::json Overview::to_json() const
+    {
+        return nlohmann::json({
+            {NAME_KEY , _userName},
+            {PROPERTIES_KEY, _totalBank}, {SHARES_KEY, _totalShareMarket}, {PROPERTIES_KEY, _totalProperty}, {OTHERS_KEY, _totalOther},
+            {NETWORTH_KEY, _netWorth}
+            });
     }
 }
