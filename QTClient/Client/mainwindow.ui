@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="mainTabs">
+   <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="overview">
      <property name="toolTip">
@@ -33,85 +33,39 @@
      <attribute name="title">
       <string>Overview</string>
      </attribute>
-     <widget class="QTableWidget" name="tableWidget">
+     <widget class="QGroupBox" name="groupBox_3">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>211</width>
-        <height>161</height>
+        <x>30</x>
+        <y>30</y>
+        <width>521</width>
+        <height>301</height>
        </rect>
       </property>
-      <property name="showGrid">
-       <bool>true</bool>
+      <property name="title">
+       <string>User Finanical Overview</string>
       </property>
-      <property name="sortingEnabled">
-       <bool>false</bool>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-      <property name="cornerButtonEnabled">
-       <bool>true</bool>
-      </property>
-      <property name="rowCount">
-       <number>5</number>
-      </property>
-      <property name="columnCount">
-       <number>2</number>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderHighlightSections">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <column/>
-      <column/>
-      <item row="0" column="0">
-       <property name="text">
-        <string>User</string>
+      <widget class="QTableWidget" name="tableWidget">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>30</y>
+         <width>261</width>
+         <height>241</height>
+        </rect>
        </property>
-      </item>
-      <item row="1" column="0">
-       <property name="text">
-        <string>Cash</string>
-       </property>
-      </item>
-      <item row="2" column="0">
-       <property name="text">
-        <string>Investments</string>
-       </property>
-      </item>
-      <item row="3" column="0">
-       <property name="text">
-        <string>Liabilities</string>
-       </property>
-      </item>
-      <item row="4" column="0">
-       <property name="text">
-        <string>NetWorth</string>
-       </property>
-      </item>
+       <column>
+        <property name="text">
+         <string>Property</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Value</string>
+        </property>
+       </column>
+      </widget>
      </widget>
-    </widget>
-    <widget class="QWidget" name="budget">
-     <attribute name="title">
-      <string>Budget</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="balanceSheet">
-     <attribute name="title">
-      <string>Balance Sheet</string>
-     </attribute>
     </widget>
     <widget class="QWidget" name="investments">
      <attribute name="title">
@@ -364,6 +318,75 @@
          <width>221</width>
          <height>121</height>
         </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_7">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>30</y>
+        <width>361</width>
+        <height>191</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Currency Conversion</string>
+      </property>
+      <widget class="QComboBox" name="sourceCurrency">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>30</y>
+         <width>69</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>30</y>
+         <width>41</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>To</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="destinationCurrency">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>30</y>
+         <width>69</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="conversionRate">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>30</y>
+         <width>111</width>
+         <height>21</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="updateButton">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>90</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Update</string>
        </property>
       </widget>
      </widget>

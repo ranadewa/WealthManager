@@ -4,8 +4,25 @@
 namespace Facade {
     InvestmentManagerFacade::InvestmentManagerFacade(HTTPServer& server, Wealth::InvestmentManager& manager) : _manager(manager)
     {
+        server.registerEndpoint(methods::GET, URI::overview, std::bind(&InvestmentManagerFacade::getInvestmentOverview, this, std::placeholders::_1));
         server.registerEndpoint(methods::GET, URI::investments, std::bind(&InvestmentManagerFacade::getInvestments, this, std::placeholders::_1));
         server.registerEndpoint(methods::POST, URI::investments, std::bind(&InvestmentManagerFacade::postInvestments, this, std::placeholders::_1));
+    }
+
+    void InvestmentManagerFacade::getInvestmentOverview(HttpRequest request)
+    {
+        auto query = request.request_uri().query();
+        auto id = utility::conversions::to_utf8string(query.substr(5, query.size()));
+
+        if (_manager.hasInvestment(id))
+        {
+            auto overview = _manager.getOverview(id);
+            request.reply(status_codes::OK, overview.to_json().dump());
+        }
+        else
+        {
+            request.reply(status_codes::OK);
+        }
     }
 
     void InvestmentManagerFacade::getInvestments(HttpRequest request)

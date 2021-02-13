@@ -8,15 +8,16 @@
 #include <QJsonObject>
 
 
-Overview::Overview(QTableWidget* table) : _networkManager(new QNetworkAccessManager()), _tableWidget(table)
+Overview::Overview(QTableWidget* table,  User& user) :
+    _networkManager(new QNetworkAccessManager()),
+    _user(user),
+    _tableWidget(table)
 {
 
 }
 
 void Overview::onSelected()
 {
-    QNetworkRequest request = Util::createRequest(URI::overview.c_str());
-
     QObject::connect(_networkManager.get(),
                      &QNetworkAccessManager::finished,
                      this,
@@ -26,30 +27,38 @@ void Overview::onSelected()
                    return;
                }
 
-               QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+               auto responsedata = reply->readAll();
+               qDebug() << QString{responsedata};
+
+               QJsonDocument doc = QJsonDocument::fromJson(responsedata);
 
                if(!doc.isNull() && doc.isObject())
                {
+                   _tableWidget->clearContents();
+                   _tableWidget->setRowCount(6);
+
                    QJsonObject obj = doc.object();
-
-                   _name = obj["name"].toString();
-                   _cash = obj["cash"].toInt();
-                   _investment = obj["investment"].toInt();
-                   _liabilities = obj["liabilities"].toInt();
-                   _netWorth = obj["netWorth"].toInt();
-
-
-
-                   _tableWidget->setItem(0, 1, new QTableWidgetItem(_name));
-                   _tableWidget->setItem(1, 1, new QTableWidgetItem(QString::number(_cash)));
-                   _tableWidget->setItem(2, 1, new QTableWidgetItem(QString::number(_investment)));
-                   _tableWidget->setItem(3, 1, new QTableWidgetItem(QString::number(_liabilities)));
-                   _tableWidget->setItem(4, 1, new QTableWidgetItem(QString::number(_netWorth)));
+                   _tableWidget->setItem(0, 0, new QTableWidgetItem("User Name"));
+                   _tableWidget->setItem(0, 1, new QTableWidgetItem(_user._name.c_str()));
+                   _tableWidget->setItem(1, 0, new QTableWidgetItem("Bank accounts"));
+                   _tableWidget->setItem(1, 1, new QTableWidgetItem(QString::number(obj[Wealth::Overview::BANK_KEY.c_str()].toDouble())));
+                   _tableWidget->setItem(2, 0, new QTableWidgetItem("Share Market"));
+                   _tableWidget->setItem(2, 1, new QTableWidgetItem(QString::number(obj[Wealth::Overview::SHARES_KEY.c_str()].toDouble())));
+                   _tableWidget->setItem(3, 0, new QTableWidgetItem("Properties"));
+                   _tableWidget->setItem(3, 1, new QTableWidgetItem(QString::number(obj[Wealth::Overview::PROPERTIES_KEY.c_str()].toDouble())));
+                   _tableWidget->setItem(4, 0, new QTableWidgetItem("Others"));
+                   _tableWidget->setItem(4, 1, new QTableWidgetItem(QString::number(obj[Wealth::Overview::OTHERS_KEY.c_str()].toDouble())));
+                   _tableWidget->setItem(5, 0, new QTableWidgetItem("Net Worth"));
+                   _tableWidget->setItem(5, 1, new QTableWidgetItem(QString::number(obj[Wealth::Overview::NETWORTH_KEY.c_str()].toDouble())));
                }
 
            }
        );
 
+    QUrlQuery query;
+    query.addQueryItem(QString("user"), QString(_user._id.c_str()));
+
+    QNetworkRequest request = Util::createRequest(URI::overview.c_str(), &query);
 
     _networkManager->get(request);
 }

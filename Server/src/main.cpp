@@ -3,6 +3,7 @@
 #include "uri.h"
 #include "usermanager_facade.h"
 #include "investmentsmanager_facade.h"
+#include "currencyconverter.h"
 
 void display_json(
 	json::value const& jvalue,
@@ -18,7 +19,9 @@ int main () {
 	UserManager userManager(make_unique<UserFileRepository>());
 	UserManagerFacade userManagerFacade(server, userManager);
 
-	Wealth::InvestmentManager investmentManager(make_unique<Wealth::InvestmentsRepository>(userManager.getUserIds()));
+	CurrencyConverter converter(server);
+
+	Wealth::InvestmentManager investmentManager(make_unique<Wealth::InvestmentsRepository>(userManager.getUserIds()), converter);
 	Facade::InvestmentManagerFacade investmentMangerFacade(server, investmentManager);
 
 	try

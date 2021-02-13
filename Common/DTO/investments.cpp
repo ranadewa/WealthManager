@@ -27,6 +27,33 @@ namespace Wealth {
         }
     }
 
+    Overview Investments::createOverview(CoversionRates conversions)
+    {
+        double bank = 0, shares = 0, properties = 0, other = 0;
+
+        for (auto& investment : _investments)
+        {
+            if (std::holds_alternative<Bank>(investment))
+            {
+                bank = std::get<Bank>(investment).total(conversions);
+            }
+            else if (std::holds_alternative<ShareMarket>(investment))
+            {
+                shares = std::get<ShareMarket>(investment).total(conversions);
+            }
+            else if (std::holds_alternative<Property>(investment))
+            {
+                properties = std::get<Property>(investment).total(conversions);
+            }
+            else if (std::holds_alternative<OtherInvestments>(investment))
+            {
+                other = std::get<OtherInvestments>(investment).total(conversions);
+            }
+        }
+        
+        return Overview(bank, shares, properties, other);
+    }
+
     void Investments::update(nlohmann::json const& info)
     {
         if (info.find(TYPE_KEY) != info.end())
@@ -146,6 +173,13 @@ namespace Wealth {
         }
     }
 
+    double Bank::total(CoversionRates const& conversion)
+    {
+        double total = _cashAccounts.total(conversion) + _fixedDeposits.total(conversion);
+
+        return total;
+    }
+
     ShareMarket::ShareMarket(nlohmann::json const& j)
     {
         setValuesFromObject(EQUITIES_KEY, j, _equities);
@@ -174,6 +208,11 @@ namespace Wealth {
 
             selected.update(j);
         }
+    }
+
+    double ShareMarket::total(CoversionRates const& conversion)
+    {
+        return _equities.total(conversion) + _bonds.total(conversion) + _reits.total(conversion);
     }
 
     Property::Property(nlohmann::json const& j)
@@ -206,6 +245,11 @@ namespace Wealth {
         }
     }
 
+    double Property::total(CoversionRates const& conversion)
+    {
+        return _commercial.total(conversion) + _residential.total(conversion) + _land.total(conversion);
+    }
+
     OtherInvestments::OtherInvestments(nlohmann::json const& j)
     {
         setValuesFromObject(OTHER_KEY, j, _others);
@@ -223,6 +267,11 @@ namespace Wealth {
         {
             _others.update(j);
         }
+    }
+
+    double OtherInvestments::total(CoversionRates const& conversion)
+    {
+        return _others.total(conversion);
     }
 
     Amount::Amount(nlohmann::json const& j) : _value{ 0 }, _currency{ Currency::USD }
@@ -270,6 +319,18 @@ namespace Wealth {
         }
     }
 
+    double Holding::total(CoversionRates const& conversion) const
+    {
+        double total{ 0 };
+
+        for (auto const& amount : _values)
+        {
+            total += (amount._currency == Currency::USD) ? amount._value : (amount._value / conversion.getRate(amount._currency));
+        }
+
+        return total;
+    }
+
     nlohmann::json Holding::to_json() const
     {      
         return nlohmann::json({ { NAME_KEY, _name }, {VALUES_KEY, transformToJson(_values)} });
@@ -293,5 +354,32 @@ namespace Wealth {
             Holding holding{ name, {amount} };
             _holdings.push_back(holding);
         }
+    }
+
+    double Holdings::total(CoversionRates const& conversion)
+    {
+        double total{ 0 };
+
+        for (auto const& account : _holdings)
+        {
+            total += account.total(conversion);
+        }
+
+        return total;
+    }
+
+    Overview::Overview(double bank, double shares, double properties, double others):
+        _totalBank(bank), _totalShareMarket(shares), _totalProperty(properties), _totalOther(others)
+    {
+        _netWorth = _totalBank + _totalShareMarket + _totalProperty + _totalOther;
+    }
+
+    nlohmann::json Overview::to_json() const
+    {
+        return nlohmann::json({
+            {NAME_KEY , _userName},
+            {PROPERTIES_KEY, _totalBank}, {SHARES_KEY, _totalShareMarket}, {PROPERTIES_KEY, _totalProperty}, {OTHERS_KEY, _totalOther},
+            {NETWORTH_KEY, _netWorth}
+            });
     }
 }

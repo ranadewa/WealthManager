@@ -10,6 +10,7 @@ include_directories(DTO/nlohmaan)
 add_library(lib_common STATIC 
 			DTO/user.h
 			DTO/investments.h 
-			DTO/investments.cpp 
+			DTO/investments.cpp
+			DTO/conversionrates.h
 			uri.h
 			place_holder.cpp)
