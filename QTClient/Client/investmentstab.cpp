@@ -203,7 +203,6 @@ Investments::Investments(InvestmentTables tables,  User& user) : _networkManager
                         ++i;
                    }
                }
-
            }
        );
 }

@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent,  User user)
     ui->sourceCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::USD));
     ui->destinationCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::SGD));
     ui->destinationCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::LKR));
+
+    on_tabWidget_tabBarClicked(0);
 }
 
 MainWindow::~MainWindow()
@@ -140,7 +142,7 @@ void MainWindow::on_updateButton_clicked()
 }
 
 
-void MainWindow::on_tabWidget_currentChanged(int index)
+void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
     switch ((TabIndex)index) {
         case TabIndex::OVERVIEW :
@@ -154,4 +156,9 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     default:
         break;
     }
+}
+
+void MainWindow::on_refreshButton_clicked()
+{
+    _investmentTab->onSelected();
 }

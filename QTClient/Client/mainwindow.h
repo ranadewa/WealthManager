@@ -39,7 +39,9 @@ private slots:
 
     void on_updateButton_clicked();
 
-    void on_tabWidget_currentChanged(int index);
+    void on_tabWidget_tabBarClicked(int index);
+
+    void on_refreshButton_clicked();
 
 private:
 
