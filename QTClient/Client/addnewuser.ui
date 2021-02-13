@@ -39,7 +39,7 @@
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -75,7 +75,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="password"/>
+         <widget class="QLineEdit" name="password">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

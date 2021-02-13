@@ -64,6 +64,12 @@ set(PROJECT_SOURCES
         newinvestment.cpp
         newinvestment.h
         newinvestment.ui
+        errordialog.cpp
+        errordialog.h
+        errordialog.ui
+        confirmationdialog.cpp
+        confirmationdialog.h
+        confirmationdialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

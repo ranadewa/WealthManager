@@ -6,7 +6,8 @@
 #include <QVariantMap>
 #include <QJsonDocument>
 #include <QJsonObject>
-
+#include "errordialog.h"
+#include "confirmationdialog.h"
 
 ChangePassword::ChangePassword(QWidget *parent,  QNetworkAccessManager* manager, User user) :
     QDialog(parent),
@@ -29,7 +30,12 @@ void ChangePassword::on_ok_clicked()
     auto password = ui->oldPassword->text();
 
     if(newPassword.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) // Validate
-        return ;
+    {
+        ErrorDialog window;
+        window.exec();
+
+        return;
+    }
 
     auto request = Util::createRequest(URI::changepassword.c_str());
 
@@ -63,6 +69,9 @@ void ChangePassword::on_ok_clicked()
     QJsonDocument doc = QJsonDocument::fromVariant(data);
 
     _manager->post(request, doc.toJson());
+
+    ConfirmationDialog window(this);
+    window.exec();
 }
 
 void ChangePassword::on_cancel_clicked()

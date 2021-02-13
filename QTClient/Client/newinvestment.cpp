@@ -1,7 +1,10 @@
 #include "newinvestment.h"
 #include "ui_newinvestment.h"
 #include <QStringList>
+#include <QDoubleValidator >
 #include "utils.h"
+#include "errordialog.h"
+#include "confirmationdialog.h"
 
 NewInvestment::NewInvestment(QWidget *parent, User user) :
     QDialog(parent),
@@ -18,6 +21,9 @@ NewInvestment::NewInvestment(QWidget *parent, User user) :
     ui->mainType->addItems(QStringList(_typeMapper.keys()));
     updateCategory();
     updateCurrency();
+
+    QDoubleValidator* rateValidator = new QDoubleValidator(this);
+    rateValidator->setRange(0.0, 1000000.0);
 }
 
 NewInvestment::~NewInvestment()
@@ -27,6 +33,14 @@ NewInvestment::~NewInvestment()
 
 void NewInvestment::on_addInvestment_clicked()
 {
+    if(ui->amount->text().size() ==0 || ui->name->text().size() == 0)
+    {
+        ErrorDialog window;
+        window.exec();
+
+        return;
+    }
+
     _investment = nlohmann::json({
                                      {Wealth::Investments::TYPE_KEY.c_str(), _typeMapper.value(ui->mainType->currentText())},
                                      {Wealth::Investments::CATEGORY_KEY.c_str(), ui->category->currentText().toStdString()},
@@ -36,6 +50,10 @@ void NewInvestment::on_addInvestment_clicked()
                                      {"userid", _user._id}
                                  });
     accept();
+
+
+    ConfirmationDialog window(this);
+    window.exec();
 }
 
 

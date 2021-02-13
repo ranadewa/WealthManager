@@ -6,7 +6,8 @@
 #include <QVariantMap>
 #include <QJsonDocument>
 #include <QJsonObject>
-
+#include "errordialog.h"
+#include "confirmationdialog.h"
 
 AddNewUser::AddNewUser(QWidget *parent, QNetworkAccessManager* manager) :
     QDialog(parent),
@@ -27,8 +28,14 @@ void AddNewUser::on_ok_clicked()
     auto password = ui->password->text();
     auto isAdmin = ui->admin->isChecked();
 
+
     if(userName.isEmpty() || password.isEmpty()) // Validate
-        return ;
+    {
+        ErrorDialog window;
+        window.exec();
+
+        return;
+    }
 
     auto request = Util::createRequest(URI::user.c_str());
 
@@ -62,6 +69,9 @@ void AddNewUser::on_ok_clicked()
     QJsonDocument doc = QJsonDocument::fromVariant(data);
 
     _manager->post(request, doc.toJson());
+
+    ConfirmationDialog window(this);
+    window.exec();
 }
 
 void AddNewUser::on_cancel_clicked()
