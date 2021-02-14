@@ -70,9 +70,6 @@ void AddNewUser::on_ok_clicked()
     QJsonDocument doc = QJsonDocument::fromVariant(data);
 
     _manager->post(request, doc.toJson());
-
-    ConfirmationDialog window(this);
-    window.exec();
 }
 
 void AddNewUser::on_cancel_clicked()
