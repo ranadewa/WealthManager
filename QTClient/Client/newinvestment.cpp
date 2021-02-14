@@ -1,7 +1,6 @@
 #include "newinvestment.h"
 #include "ui_newinvestment.h"
 #include <QStringList>
-#include <QDoubleValidator >
 #include "utils.h"
 #include "errordialog.h"
 #include "confirmationdialog.h"
@@ -21,9 +20,6 @@ NewInvestment::NewInvestment(QWidget *parent, User user) :
     ui->mainType->addItems(QStringList(_typeMapper.keys()));
     updateCategory();
     updateCurrency();
-
-    QDoubleValidator* rateValidator = new QDoubleValidator(this);
-    rateValidator->setRange(0.0, 1000000.0);
 }
 
 NewInvestment::~NewInvestment()
