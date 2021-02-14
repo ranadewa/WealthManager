@@ -94,7 +94,7 @@ Personal wealth management system in C++
   <img src="images/new_user_dialog.png" width="300"/>
 * Click Get Users button & all existing users will be listed in the table.
   <img src="images/get_users_listing_existing.png" width="600"/>
-* To change logged in user's password, click Change Password button.
+* To change logged in user's password, click Change Password button.  
   <img src="images/change_password.png" width="300"/>
 * To update currency conversion rates. Select respective currency from 2nd drop down in Currency conversion group and update it to correct value. Currently, only conversion from USD is supported. These rates will be used to calculate overview's total assets in USD.
   <img src="images/currency_conversion.png" width="600"/>
