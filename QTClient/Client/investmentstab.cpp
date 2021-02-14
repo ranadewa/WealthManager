@@ -150,10 +150,22 @@ Investments::Investments(InvestmentTables tables,  User& user) : _networkManager
     _tables(tables),
     _user(user)
 {
-    QObject::connect(_networkManager.get(),
-                     &QNetworkAccessManager::finished,
+
+}
+
+void Investments::onSelected()
+{
+    QUrlQuery query;
+    query.addQueryItem(QString("user"), QString(_user._id.c_str()));
+
+    QNetworkRequest request = Util::createRequest(URI::investments.c_str(), &query);
+
+    QNetworkReply *reply = _networkManager->get(request);
+
+    QObject::connect(reply,
+                     &QIODevice::readyRead,
                      this,
-                     [=](QNetworkReply *reply) {
+                     [=]() {
                if (reply->error()) {
                    qDebug() << reply->errorString();
                    return;
@@ -203,18 +215,10 @@ Investments::Investments(InvestmentTables tables,  User& user) : _networkManager
                         ++i;
                    }
                }
+
+               reply->deleteLater();
            }
        );
-}
-
-void Investments::onSelected()
-{
-    QUrlQuery query;
-    query.addQueryItem(QString("user"), QString(_user._id.c_str()));
-
-    QNetworkRequest request = Util::createRequest(URI::investments.c_str(), &query);
-
-    _networkManager->get(request);
 }
 
 void Investments::addInvestment()
@@ -227,7 +231,24 @@ void Investments::addInvestment()
 
         QNetworkRequest request = Util::createRequest(URI::investments.c_str(), &query);
 
-        _networkManager->post(request, window._investment.dump().c_str());
+         QNetworkReply *reply = _networkManager->post(request, window._investment.dump().c_str());
+
+         QObject::connect(reply,
+                          &QIODevice::readyRead,
+                          this,
+                          [=]() {
+                    if (reply->error()) {
+                        qDebug() << reply->errorString();
+                        return;
+                    }
+
+                    auto responsedata = reply->readAll();
+                    qDebug() << QString{responsedata};
+                    QJsonArray investments = QJsonDocument::fromJson(responsedata).array();
+
+                    reply->deleteLater();
+                }
+            );
     }
 
 }
