@@ -47,11 +47,10 @@ namespace Facade {
                 if (!jvalue.is_null())
                 {
                     nlohmann::json object = nlohmann::json::parse(utility::conversions::to_utf8string(jvalue.serialize()));
-                    std::cout << object;
 
                     if (object.find("userid") != object.end())
                     {
-                        std::string id = object["userid"]; // TODO remove hardcode
+                        std::string id = object["userid"];
                         _manager.update(id, object);
                     }
 

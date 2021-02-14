@@ -82,8 +82,6 @@ void UserManagerFacade::deleteUser(HttpRequest request)
 
 void UserManagerFacade::getUserList(HttpRequest request)
 {
-    cout << "getUserList." << endl;
-
 	vector<User> users = _manager.getUsers();
 	auto jUsers = nlohmann::json::array();
 

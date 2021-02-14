@@ -45,6 +45,8 @@ void AddNewUser::on_ok_clicked()
                      [=](QNetworkReply *reply) {
                if (reply->error()) {
                    qDebug() << reply->errorString();
+                   ErrorDialog window;
+                   window.exec();
                    return;
                }
                else
@@ -56,7 +58,6 @@ void AddNewUser::on_ok_clicked()
                        accept();
                    }
 
-                   // TODO handle reject
                }
            }
        );

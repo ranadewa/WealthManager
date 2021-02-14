@@ -244,8 +244,6 @@ void Investments::addInvestment()
 
                     auto responsedata = reply->readAll();
                     qDebug() << QString{responsedata};
-                    QJsonArray investments = QJsonDocument::fromJson(responsedata).array();
-
                     reply->deleteLater();
                 }
             );

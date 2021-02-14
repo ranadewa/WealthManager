@@ -59,10 +59,13 @@ void MainWindow::on_getUsers_clicked()
 {
     QNetworkRequest request = Util::createRequest(URI::user.c_str());
 
-    QObject::connect(_manager.get(),
-                     &QNetworkAccessManager::finished,
+
+
+    QNetworkReply *reply = _manager->get(request);
+    QObject::connect(reply,
+                     &QIODevice::readyRead,
                      this,
-                     [=](QNetworkReply *reply) {
+                     [=]() {
                if (reply->error()) {
                    qDebug() << reply->errorString();
                    return;
@@ -94,9 +97,6 @@ void MainWindow::on_getUsers_clicked()
 
            }
        );
-
-
-    _manager->get(request);
 }
 
 void MainWindow::on_addNew_clicked()
@@ -119,10 +119,18 @@ void MainWindow::on_updateButton_clicked()
 
     auto request = Util::createRequest(URI::currency.c_str());
 
-    QObject::connect(_manager.get(),
-                     &QNetworkAccessManager::finished,
+    QVariantMap data;
+    data["currency"] = (int)desitnationCurrency;
+    data["value"] = value;
+
+    QJsonDocument doc = QJsonDocument::fromVariant(data);
+
+    QNetworkReply *reply =_manager->post(request, doc.toJson());
+
+    QObject::connect(reply,
+                     &QIODevice::readyRead,
                      this,
-                     [=](QNetworkReply *reply) {
+                     [=]() {
                if (reply->error()) {
                    qDebug() << reply->errorString();
                    return;
@@ -139,15 +147,6 @@ void MainWindow::on_updateButton_clicked()
                }
            }
        );
-
-
-    QVariantMap data;
-    data["currency"] = (int)desitnationCurrency;
-    data["value"] = value;
-
-    QJsonDocument doc = QJsonDocument::fromVariant(data);
-
-    _manager->post(request, doc.toJson());
 
     ConfirmationDialog window(this);
     window.exec();
