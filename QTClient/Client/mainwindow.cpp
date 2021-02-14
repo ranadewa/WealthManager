@@ -10,7 +10,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QDoubleValidator>
 #include "utils.h"
 #include "errordialog.h"
 #include "confirmationdialog.h"
@@ -37,10 +36,6 @@ MainWindow::MainWindow(QWidget *parent,  User user)
     ui->destinationCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::LKR));
 
     on_tabWidget_tabBarClicked(0);
-
-   QDoubleValidator* rateValidator = new QDoubleValidator(this);
-   rateValidator->setRange(0.0, 1000000.0);
-   ui->conversionRate->setValidator(rateValidator);
 }
 
 MainWindow::~MainWindow()
