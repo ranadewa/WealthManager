@@ -28,6 +28,7 @@ currencyconverter.cpp
 add_executable(server ${PROJECT_SOURCES})
 
 target_link_libraries(server PRIVATE  
+pthread
 CppRest::CppRest 
 lib_common 
 ${Boost_LIBRARIES}
