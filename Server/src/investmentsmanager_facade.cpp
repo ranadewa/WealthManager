@@ -14,15 +14,8 @@ namespace Facade {
         auto query = request.request_uri().query();
         auto id = utility::conversions::to_utf8string(query.substr(5, query.size()));
 
-        if (_manager.hasInvestment(id))
-        {
-            auto overview = _manager.getOverview(id);
-            request.reply(status_codes::OK, overview.to_json().dump());
-        }
-        else
-        {
-            request.reply(status_codes::OK);
-        }
+        auto overview = _manager.getOverview(id);
+        request.reply(status_codes::OK, overview.to_json().dump());
     }
 
     void InvestmentManagerFacade::getInvestments(HttpRequest request)

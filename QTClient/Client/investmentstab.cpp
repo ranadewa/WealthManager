@@ -36,7 +36,7 @@ int Investments::addValuesToTable(QTableWidget* table, QJsonArray array, int row
 
                  auto currencyString = Util::CurrencyMapper::getKey(currency);
 
-                 valueList +=  QString::number(price) + currencyString + " ,";
+                 valueList +=  QString::number(price) + " " + currencyString + " ";
 
                  ++valueIter;
             }
@@ -203,7 +203,6 @@ Investments::Investments(InvestmentTables tables,  User& user) : _networkManager
                         ++i;
                    }
                }
-
            }
        );
 }

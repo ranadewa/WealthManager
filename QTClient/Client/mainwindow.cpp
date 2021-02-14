@@ -10,7 +10,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QDoubleValidator>
 #include "utils.h"
+#include "errordialog.h"
+#include "confirmationdialog.h"
 
 MainWindow::MainWindow(QWidget *parent,  User user)
     : QMainWindow(parent)
@@ -32,6 +35,12 @@ MainWindow::MainWindow(QWidget *parent,  User user)
     ui->sourceCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::USD));
     ui->destinationCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::SGD));
     ui->destinationCurrency->addItem(Util::CurrencyMapper::getKey(Wealth::Currency::LKR));
+
+    on_tabWidget_tabBarClicked(0);
+
+   QDoubleValidator* rateValidator = new QDoubleValidator(this);
+   rateValidator->setRange(0.0, 1000000.0);
+   ui->conversionRate->setValidator(rateValidator);
 }
 
 MainWindow::~MainWindow()
@@ -74,6 +83,7 @@ void MainWindow::on_getUsers_clicked()
                    auto iter = users.begin();
                    auto end = users.end();
 
+                    ui->usersTable->clearContents();
                    ui->usersTable->setRowCount(users.size());
                    while(iter != end)
                    {
@@ -81,12 +91,10 @@ void MainWindow::on_getUsers_clicked()
                        ui->usersTable->setColumnCount(jsonObject.size());
 
                        ui->usersTable->setItem(i, 0, new QTableWidgetItem(jsonObject["id"].toString()));
-                        ui->usersTable->setItem(i, 1, new QTableWidgetItem(jsonObject["name"].toString()));
-                        ui->usersTable->setItem(i, 2, new QTableWidgetItem(jsonObject["isAdmin"].toBool()));
+                       ui->usersTable->setItem(i, 1, new QTableWidgetItem(jsonObject["name"].toString()));
                         ++iter;
                         ++i;
                    }
-
                }
 
            }
@@ -103,6 +111,14 @@ void MainWindow::on_addNew_clicked()
 
 void MainWindow::on_updateButton_clicked()
 {
+    if(ui->conversionRate->text().size() == 0)
+    {
+        ErrorDialog window;
+        window.exec();
+
+        return;
+    }
+
     auto desitnationCurrency  = Util::CurrencyMapper::_currencyMapper.value(ui->destinationCurrency->currentText());
     auto value = ui->conversionRate->text().toDouble();
 
@@ -137,10 +153,13 @@ void MainWindow::on_updateButton_clicked()
     QJsonDocument doc = QJsonDocument::fromVariant(data);
 
     _manager->post(request, doc.toJson());
+
+    ConfirmationDialog window(this);
+    window.exec();
 }
 
 
-void MainWindow::on_tabWidget_currentChanged(int index)
+void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
     switch ((TabIndex)index) {
         case TabIndex::OVERVIEW :
@@ -154,4 +173,9 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     default:
         break;
     }
+}
+
+void MainWindow::on_refreshButton_clicked()
+{
+    _investmentTab->onSelected();
 }
