@@ -23,6 +23,5 @@ void HTTPServer::registerEndpoint(method method, string path, Action action)
 
 void HTTPServer::start()
 {
-	_listner.open().then([this]() { std::cout << "Server started on: " << _baseURI << std::endl;  }).wait();
 	_listner.open().then([this]() { TRACE("Server started on: "); TRACE(_baseURI)  }).wait();
 }
