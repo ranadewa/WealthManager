@@ -23,7 +23,7 @@ bool UserManager::authenticate(User& user)
 
         if (_users.find(id) != _users.end())
         {
-            auto storedPassword = _users.at(id)._password; // To do decrypt password
+            auto storedPassword = _users.at(id)._password; 
 
             if (storedPassword.compare(user._password) == 0) // passoword match
             {
@@ -41,7 +41,7 @@ bool UserManager::updatePassword(User& user, string const& newPassword)
 
     if (_users.find(user._id) != _users.end())
     {
-        auto storedPassword = _users.at(user._id)._password; // To do decrypt password
+        auto storedPassword = _users.at(user._id)._password; 
 
         if (storedPassword.compare(user._password) == 0) // passoword match
         {
@@ -69,7 +69,7 @@ bool UserManager::addUser(User&& user, string& error)
     if (_repository->addUser(user))
     {
         _idLookup.insert({ user._name ,  user._id });
-        _users.insert({ user._id, std::move(user) }); // To do encrypt password
+        _users.insert({ user._id, std::move(user) }); 
     }
     else
     {
