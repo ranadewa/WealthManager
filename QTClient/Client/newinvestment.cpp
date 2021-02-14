@@ -37,19 +37,24 @@ void NewInvestment::on_addInvestment_clicked()
         return;
     }
 
+    auto type =  _typeMapper.value(ui->mainType->currentText());
+    auto category = ui->category->currentText().toStdString();
+    auto name =  ui->name->text().toStdString();
+    auto amount = ui->amount->text().toDouble();
+    auto currency = Util::CurrencyMapper::_currencyMapper.value(ui->currency->currentText());
     _investment = nlohmann::json({
-                                     {Wealth::Investments::TYPE_KEY.c_str(), _typeMapper.value(ui->mainType->currentText())},
-                                     {Wealth::Investments::CATEGORY_KEY.c_str(), ui->category->currentText().toStdString()},
-                                     {Wealth::Holding::NAME_KEY.c_str(), ui->name->text().toStdString()},
-                                     {Wealth::Amount::VALUE_KEY.c_str(), ui->amount->text().toDouble()},
-                                     {Wealth::Amount::CURRENCY_KEY.c_str(), Util::CurrencyMapper::_currencyMapper.value(ui->currency->currentText())},
+                                     {Wealth::Investments::TYPE_KEY.c_str(), type},
+                                     {Wealth::Investments::CATEGORY_KEY.c_str(), category},
+                                     {Wealth::Holding::NAME_KEY.c_str(), name},
+                                     {Wealth::Amount::VALUE_KEY.c_str(), amount},
+                                     {Wealth::Amount::CURRENCY_KEY.c_str(), currency},
                                      {"userid", _user._id}
                                  });
-    accept();
-
 
     ConfirmationDialog window(this);
     window.exec();
+
+    accept();
 }
 
 
