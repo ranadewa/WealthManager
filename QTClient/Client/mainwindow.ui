@@ -332,6 +332,24 @@
          <height>121</height>
         </rect>
        </property>
+       <property name="rowCount">
+        <number>0</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>User ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>User Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string/>
+        </property>
+       </column>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_7">

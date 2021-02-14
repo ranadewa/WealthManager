@@ -83,6 +83,7 @@ void MainWindow::on_getUsers_clicked()
                    auto iter = users.begin();
                    auto end = users.end();
 
+                    ui->usersTable->clearContents();
                    ui->usersTable->setRowCount(users.size());
                    while(iter != end)
                    {
@@ -90,12 +91,10 @@ void MainWindow::on_getUsers_clicked()
                        ui->usersTable->setColumnCount(jsonObject.size());
 
                        ui->usersTable->setItem(i, 0, new QTableWidgetItem(jsonObject["id"].toString()));
-                        ui->usersTable->setItem(i, 1, new QTableWidgetItem(jsonObject["name"].toString()));
-                        ui->usersTable->setItem(i, 2, new QTableWidgetItem(jsonObject["isAdmin"].toBool()));
+                       ui->usersTable->setItem(i, 1, new QTableWidgetItem(jsonObject["name"].toString()));
                         ++iter;
                         ++i;
                    }
-
                }
 
            }

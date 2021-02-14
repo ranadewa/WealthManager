@@ -95,7 +95,7 @@ namespace Wealth {
         _investments.push_back(OtherInvestments());
     }
 
-    Investments::Investments(const nlohmann::json& j) : Investments()
+    Investments::Investments(const nlohmann::json& j)
     {
         auto iter = j.begin();
         auto end = j.end();
@@ -378,7 +378,7 @@ namespace Wealth {
     {
         return nlohmann::json({
             {NAME_KEY , _userName},
-            {PROPERTIES_KEY, _totalBank}, {SHARES_KEY, _totalShareMarket}, {PROPERTIES_KEY, _totalProperty}, {OTHERS_KEY, _totalOther},
+            {BANK_KEY, _totalBank}, {SHARES_KEY, _totalShareMarket}, {PROPERTIES_KEY, _totalProperty}, {OTHERS_KEY, _totalOther},
             {NETWORTH_KEY, _netWorth}
             });
     }
