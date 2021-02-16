@@ -61,7 +61,7 @@ Personal wealth management system in C++
   ```
   git clone https://github.com/ranadewa/WealthManager --recurse-submodules
   ```
-* Build libraries in 3rd Party folder. Go into 3rd Party folder. Create a build directory and build the libraries.
+* Build libraries in 3rd Party folder. Go into 3rd Party folder. Create a build directory and build the libraries. Please use the name **build** for the build directory. As it is included in Solutions' CMakeLists.txt file.
   ```
   cd 3rdParty
   mkdir build
