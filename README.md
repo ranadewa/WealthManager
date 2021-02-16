@@ -61,6 +61,11 @@ Personal wealth management system in C++
   ```
   git clone https://github.com/ranadewa/WealthManager --recurse-submodules
   ```
+  
+* Install needed build tools and libraries
+```
+sudo apt-get install g++ git libboost-atomic-dev libboost-thread-dev libboost-system-dev libboost-date-time-dev libboost-regex-dev libboost-filesystem-dev libboost-random-dev libboost-chrono-dev libboost-serialization-dev libwebsocketpp-dev openssl libssl-dev ninja-build
+```
 * Build libraries in 3rd Party folder. Go into 3rd Party folder. Create a build directory and build the libraries. Please use the name **build** for the build directory. As it is included in Solutions' CMakeLists.txt file.
   ```
   cd 3rdParty
